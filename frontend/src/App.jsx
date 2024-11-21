@@ -1,35 +1,43 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useEffect } from "react";
+import Layout from "./components/Layout/Layout";
+import {
+  createBrowserRouter,
+  createRoutesFromElements,
+  Route,
+  RouterProvider,
+} from "react-router-dom";
+import Cart from "./components/Cart/Cart";
+import Home from "./components/Home/Home";
+import PlaceOrder from "./components/Placeorder/PlaceOrder";
+import AOS from "aos";
+import "aos/dist/aos.css";
+import Exploremenu from "./components/Exploremenu/Exploremenu";
 
-function App() {
-  const [count, setCount] = useState(0)
-
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route path="/" element=<Layout />>
+      <Route path="" element=<Home /> />
+      <Route path="cart" element=<Cart /> />
+      <Route path="placeorder" element=<PlaceOrder /> />
+    </Route>
   )
-}
+);
 
-export default App
+const App = () => {
+  useEffect(() => {
+    AOS.init({
+      offset: 100,
+      duration: 600,
+      easing: "ease-in-sine",
+      delay: 100,
+    });
+    AOS.refresh();
+  }, []);
+  return (
+    <div className="app">
+      <RouterProvider router={router} />
+    </div>
+  );
+};
+
+export default App;
