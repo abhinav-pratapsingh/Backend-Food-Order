@@ -18,15 +18,16 @@ const Exploremenu = ({ category, setCategory }) => {
             return (
               <div
                 data-aos="fade-right"
-                onClick={() => {
-                  setCategory((prev) =>
-                    prev === data.menu_name ? "All" : data.menu_name
-                  );
-                }}
                 key={data.id}
                 className="explore-menu-list-item"
               >
-                <NavLink>
+                <NavLink
+                  onClick={() => {
+                    setCategory((prev) =>
+                      prev === data.menu_name ? "All" : data.menu_name
+                    );
+                  }}
+                >
                   <img
                     className={category === data.menu_name ? "active" : ""}
                     src={data.menu_image}

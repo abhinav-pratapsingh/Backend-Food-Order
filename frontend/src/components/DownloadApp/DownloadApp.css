@@ -6,3 +6,14 @@
 .download-app-img{
     padding: 30px 0;
 }
+
+@media (max-width:750px) {
+    .download-app h1{
+        font-size: 25px;
+    }
+
+    .download-app-img{
+       display: flex;
+       justify-content: center;
+    }
+}
