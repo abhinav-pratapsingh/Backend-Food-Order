@@ -29,7 +29,7 @@ app.use(passport.session());
 
 passport.use(new localStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
-passport.deserializeUser(user.deserializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 //middlewares
 app.use(express.json());

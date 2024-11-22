@@ -3,12 +3,12 @@ import passportLocalMongoose from "passport-local-mongoose";
 
 const userSchema = new mongoose.Schema({
     name:{type:String,required:true},
-    email:{type:String,required:true},
+    // email:{type:String,required:true},
     cartData : {type:Object,default:{}},
 },{minimize:false});
 
 userSchema.plugin(passportLocalMongoose);
 
-User = mongoose.model.USer || mongoose.model('User',userSchema);
+const User = mongoose.model.User || mongoose.model('User',userSchema);
 
 export default User;
