@@ -15,6 +15,7 @@
 }
 
 .explore-menu-list{
+    margin: 0 60px;
     display: grid;
     grid-template-columns: repeat(8,1fr);
     gap: 30px;
@@ -37,7 +38,7 @@ border-radius: 50%;
 }
 
 .explore-meni-list-item img{
-    width: 7.5vw;
+    width: 5.5vw;
     min-width: 80px;
     cursor: pointer;
     border-radius: 50%;

@@ -1,11 +1,9 @@
 .food-display{
-    width: 100%;
     margin-top: 30px;
-    padding: 40px 0;
 }
 
 .food-display h2{
-    font-size: max(2vm,24px);
+    font-size: 3vmax;
     font-weight: 600;
 }
 

@@ -1,4 +1,5 @@
 .navbar{
+    width: 100%;
     padding: 20px 0;
     display: flex;
     justify-content: space-between;
@@ -7,6 +8,7 @@
 
 .navbar .logo{
     width: 150px;
+    padding-left: 60px;
 }
 
 .navbar-menu{
@@ -19,6 +21,7 @@
 }
 
 .navbar-right {
+    padding-right: 60px;
     display: flex;
     align-items: center;
     gap: 20px;
