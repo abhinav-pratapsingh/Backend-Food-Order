@@ -6,7 +6,7 @@ import {
   Route,
   RouterProvider,
 } from "react-router-dom";
-import Cart from "./components/Cart/Cart";
+import Cart from "../Pages/Cart/Cart";
 import Home from "./components/Home/Home";
 import PlaceOrder from "./components/Placeorder/PlaceOrder";
 import AOS from "aos";

@@ -1,7 +1,7 @@
 import { createContext, useEffect, useState } from "react";
 import { food_list } from "../assets/assets";
 
-export const Storecontext = createContext();
+export const Storecontext = createContext(null);
 
 const StoreContextProvider = (props) => {
   //Add to cart funtion
@@ -21,7 +21,7 @@ const StoreContextProvider = (props) => {
   };
 
   useEffect(() => {
-    // console.log(cartItems);
+    console.log(cartItems);
   }, [cartItems]);
 
   //End add to cart
