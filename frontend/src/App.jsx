@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "./components/Layout/Layout";
 import {
   createBrowserRouter,
@@ -11,7 +11,6 @@ import Home from "./components/Home/Home";
 import PlaceOrder from "./components/Placeorder/PlaceOrder";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import Exploremenu from "./components/Exploremenu/Exploremenu";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -33,6 +32,7 @@ const App = () => {
     });
     AOS.refresh();
   }, []);
+
   return (
     <div className="app">
       <RouterProvider router={router} />
