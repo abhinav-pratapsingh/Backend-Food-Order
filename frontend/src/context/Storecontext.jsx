@@ -11,10 +11,9 @@ const StoreContextProvider = (props) => {
     // setCartItems({ ...prev, [itemId]: 1 });
     if (!cartItems[itemId]) {
       setCartItems((prev) => ({ ...prev, [itemId]: 1 }));
+    } else {
+      setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] + 1 }));
     }
-    //else {
-    //   setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] + 1 }));
-    // }
   };
 
   const removeFromCart = (itemId) => {
@@ -29,10 +28,10 @@ const StoreContextProvider = (props) => {
 
   const contextValue = {
     food_list,
-    addToCart,
-    removeFromCart,
     cartItems,
     setCartItems,
+    addToCart,
+    removeFromCart,
   };
 
   return (

@@ -7,7 +7,12 @@ const Navbar = () => {
   return (
     <>
       <div className="navbar">
-        <img src={assets.logo} alt="logo" className="logo" />
+        <img
+          data-aos="fade-right"
+          src={assets.logo}
+          alt="logo"
+          className="logo"
+        />
         <ul className="navbar-menu">
           <li
             onClick={() => {

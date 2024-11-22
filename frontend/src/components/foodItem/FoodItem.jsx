@@ -1,13 +1,14 @@
-import React, { useContext, useState } from "react";
+import React, { Children, useContext, useState } from "react";
 import "./fooditem.css";
 import { assets } from "../../assets/assets";
-import { Storecontext } from "../../context/Storecontext";
+// import { Storecontext } from "../../context/Storecontext";
 
 const FoodItem = ({ id, name, price, des, img }) => {
   const [itemCount, setItemCount] = useState(0);
 
-  const { cartItems, setCartItems, addToCart, removeFromCart } =
-    useContext(Storecontext);
+  // const { cartItems, setCartItems, addToCart, removeFromCart } =
+  //   useContext(Storecontext);
+  // console.log(itemCount);
   return (
     <>
       <div className="food-item" data-aos="fade-in">

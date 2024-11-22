@@ -23,7 +23,7 @@ const Exploremenu = ({ category, setCategory }) => {
                     prev === data.menu_name ? "All" : data.menu_name
                   );
                 }}
-                key={index}
+                key={data.id}
                 className="explore-menu-list-item"
               >
                 <NavLink>
