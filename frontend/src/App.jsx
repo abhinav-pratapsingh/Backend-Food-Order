@@ -7,8 +7,8 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import Cart from "../Pages/Cart/Cart";
-import Home from "./components/Home/Home";
-import PlaceOrder from "./components/Placeorder/PlaceOrder";
+import Home from "../Pages/Home/Home";
+import PlaceOrder from "../Pages/Placeorder/PlaceOrder";
 import AOS from "aos";
 import "aos/dist/aos.css";
 
@@ -16,8 +16,9 @@ const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element=<Layout />>
       <Route path="" element=<Home /> />
+      <Route path="home" element=<Home /> />
       <Route path="cart" element=<Cart /> />
-      <Route path="placeorder" element=<PlaceOrder /> />
+      <Route path="/placeorder" element=<PlaceOrder /> />
     </Route>
   )
 );

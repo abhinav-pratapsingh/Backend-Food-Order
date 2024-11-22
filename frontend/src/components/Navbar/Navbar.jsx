@@ -1,27 +1,34 @@
-import React, { useState } from "react";
+import React, { useCallback, useContext, useState } from "react";
 import "./Navbar.css";
 import { assets } from "../../assets/assets";
+import { Link } from "react-router-dom";
+import { Storecontext } from "../../context/Storecontext";
 
 const Navbar = ({ setShowLogin }) => {
   const [menu, setMenu] = useState("Home");
+  const { getTotalCartAmount } = useContext(Storecontext);
   return (
     <>
       <div className="navbar">
-        <img
-          data-aos="fade-right"
-          src={assets.logo}
-          alt="logo"
-          className="logo"
-        />
+        <Link to="/">
+          <img
+            data-aos="fade-right"
+            src={assets.logo}
+            alt="logo"
+            className="logo"
+          />
+        </Link>
         <ul className="navbar-menu">
-          <li
-            onClick={() => {
-              setMenu("Home");
-            }}
-            className={menu === "Home" ? "active" : ""}
-          >
-            Home
-          </li>
+          <Link to="home">
+            <li
+              onClick={() => {
+                setMenu("Home");
+              }}
+              className={menu === "Home" ? "active" : ""}
+            >
+              Home
+            </li>
+          </Link>
           <li
             onClick={() => {
               setMenu("Menu");
@@ -50,8 +57,10 @@ const Navbar = ({ setShowLogin }) => {
         <div className="navbar-right">
           <img src={assets.search_icon} />
           <div className="navbar-search-icon">
-            <img src={assets.basket_icon} />
-            <div className="dot"></div>
+            <Link to="/cart">
+              <img src={assets.basket_icon} />
+            </Link>
+            <div className={getTotalCartAmount() === 0 ? "" : "dot"}></div>
           </div>
           <button onClick={() => setShowLogin(true)}>sign in</button>
         </div>
