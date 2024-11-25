@@ -1,8 +1,9 @@
-import passport from "passport";
 import nodemailer from "nodemailer";
 const sub = 'verification email tomato';
-let temp = {email:null,code:null};
-import User from "../models/userModel.js";
+import userModel from "../models/userModel.js";
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
+
 
 const transporter = nodemailer.createTransport(
     {
@@ -17,7 +18,9 @@ const transporter = nodemailer.createTransport(
     }
 )
 
-
+const createToken = (id)=>{
+    return jwt.sign({id},process.env.JWT_SECRET)
+}
 
 const sendMailVerification =async (to,sub,code)=>{
   await  transporter.sendMail(
@@ -31,22 +34,35 @@ const sendMailVerification =async (to,sub,code)=>{
 
 const userRegister = async (req,res)=>{
 
-    const {name,email,password,verifyCode} = req.body;
-    console.log(name,email,password,verifyCode);
-    console.log(temp.email,temp.code)
+    const {name,email,password} = req.body;
+    console.log(name,email,password);
     try{
-        
-    if(verifyCode == temp.code && email == temp.email){
-        const user = new User({username:email,name:name,cartData:{}});
-        const user2 = await User.register(user,password);
-        res.json({success:true,data:user});
-    }
-    else{
-        res.json({success:false,message:'verification code did not matched'});
-    }
+        //checking user already exists
+        const exists = await userModel.findOne({email});
+        if (exists){
+            return res.json({success:false,message:'user already exists'});
+        }
+        //validating email format & string pass
+        if(password.length<8){
+            return res.json({success:false,message:"please enter a strong password"});
+        }
+        //hashing user pass
+        const salt = await bcrypt.genSalt(10);
+        const hashedpassword = await bcrypt.hash(password,salt);
+
+        const newUser = new userModel({
+            name:name,
+            email:email,
+            password:hashedpassword
+        });   
+        const user = await newUser.save();
+        const token = createToken(user._id);
+        res.json({success:true,message:"User successfully registered",token});
+
     }catch(e){
-        res.json({success:false,message:`cannot register user ${e}`});
+        res.json({success:false,message:`error ${e}`});
     }
+
 }
 
 const sendCode = (req,res)=>{
@@ -66,8 +82,26 @@ const sendCode = (req,res)=>{
 
 
 
-const userLogin =(req,res)=>{
-   res.json({success:true,message:'succussfully logged in'});
+const userLogin =async (req,res)=>{
+   const {email,password} = req.body;
+   try {
+    const user = await userModel.findOne({email:email});
+    if(!user){
+        return res.json({success:false,message:"user not exists please register"});
+    }
+    else{
+        const isMatch = await bcrypt.compare(password,user.password);
+        console.log(isMatch);
+        if(!isMatch){
+           return res.json({success:false,message:'invaild credentials'});
+        }
+
+        const token = createToken(user._id);
+        res.json({success:true,message:'user logged in successflly',token})
+    }
+   } catch (e) {
+    res.json({success:false,message:`login failed}`})
+   }
 }
 
 
