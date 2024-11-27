@@ -50,8 +50,12 @@ const checkUserStaus = async (req,res,next)=>{
 }
 
 const checkRestroStatus = async (req,res,next)=>{
+    console.log(req.body.email)
     try {
         const restro = await restroModel.findOne({email:req.body.email});
+        if(!restro){
+            res.json({success:false,message:"user not exists"});
+        }else{
         if(restro.status == 0 ){
             res.json({success:false,message:"Restaurent registration pending"});
         } 
@@ -63,7 +67,7 @@ const checkRestroStatus = async (req,res,next)=>{
         }
         else if(restro.status==3){
             next();
-        }
+        }}
     } catch (error) {
         console.log(error);
             res.json({success:false,message:"error"});

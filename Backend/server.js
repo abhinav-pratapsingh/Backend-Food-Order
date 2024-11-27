@@ -13,6 +13,7 @@ import 'dotenv/config';
 import orderRouter from './routes/orderRoutes.js';
 import addressRouter from './routes/addressRoutes.js';
 import restroRouter from './routes/restroRoutes.js';
+import adminRouter from './routes/adminRoutes.js';
 
 
 // app config
@@ -55,6 +56,7 @@ app.use('/api/cart',cartRouter);
 app.use('/api/order',orderRouter);
 app.use('/api/address',addressRouter);
 app.use('/api/restro',restroRouter);
+app.use('/admin',adminRouter);
 app.use('/images',express.static('uploads'));
 
 

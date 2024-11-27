@@ -6,6 +6,7 @@ const restroSchema = new mongoose.Schema({
     email : {type:String,required:true},
     password:{type:String,required:true},
     phone : {type:Number,required:true},
+    date : {type:Date,default:Date.now()},
     status : {type:Number,default:0}//0 for registration pending ,1  for restration on hold,2 for restro active,3 for Account blocked
 })
 
