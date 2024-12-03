@@ -18,9 +18,11 @@ const LoginPopUp = ({ setShowLogin }) => {
             ) : (
               <input type="text" placeholder="Your name" required />
             )}
-
-            <input type="email" placeholder="Your emal" required />
-            <input type="password" placeholder="password    " required />
+            <div className="email-otp">
+              <input type="email" placeholder="Your emal" required />
+              <button className="otp">Get OTP</button>
+            </div>
+            <input type="password" placeholder="password" required />
           </div>
           <button>
             {currState === "Sign Up" ? "Create account" : "Login"}

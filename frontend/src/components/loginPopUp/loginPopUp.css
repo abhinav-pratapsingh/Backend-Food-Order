@@ -76,3 +76,15 @@
     font-weight: 500;
     cursor: pointer;
 }
+
+.otp{
+    width: 30%;
+}
+
+.email-otp{
+    display: flex;
+}
+
+.email-otp input{
+    width: 70%;
+}
