@@ -78,13 +78,17 @@
 }
 
 .otp{
+    position: absolute;
     width: 30%;
+    right: 30px;
+    /* margin-left: 10px; */
 }
 
-.email-otp{
+/* .email-otp{
     display: flex;
-}
+} */
 
 .email-otp input{
-    width: 70%;
+    position: relative;
+    width: 93%;
 }

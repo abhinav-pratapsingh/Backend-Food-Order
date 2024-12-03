@@ -8,6 +8,4 @@ userRouter.post('/register',userRegister);
 userRouter.post('/login',checkUserStaus,userLogin);
 userRouter.post('/send',sendCode);
 
-
-
 export default userRouter; 

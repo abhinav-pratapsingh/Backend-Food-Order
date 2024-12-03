@@ -37,7 +37,7 @@ const userRegister = async (req, res) => {
     console.log(name, email, password, otp);
     try {
         const D_otp = await otpModel.find({ email }).sort({Date:-1});
-        console.log(D_otp)
+        console.log(D_otp[0].otp)
         const isVaild = (D_otp)=>{
             const current = Date.now();
             const tenmin = 10*60*1000;
@@ -84,16 +84,18 @@ const userRegister = async (req, res) => {
 const sendCode = async (req, res) => {
 
     const code = Math.floor(Math.random() * 100000) + 100000;
+   
     const email = req.body.email;
-
-
+    if(!email){
+       return res.json({success:false,message:"please enter email"})
+    }
     try {
         const otp = new otpModel({ email: email, otp: code });
         sendMailVerification(email, sub, code);
         await otp.save();
         console.log("code sent", otp);
-        res.end();
-    } catch (e) {
+        res.json({success:true,message:"OTP sent successfully"});
+    } catch (e){
         res.send(e);
         //res.json({success:false,message:'cannot send verification code'})
     }
