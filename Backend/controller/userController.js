@@ -1,64 +1,99 @@
-import passport from "passport";
 import nodemailer from "nodemailer";
 const sub = 'verification email tomato';
-let temp = {email:null,code:null};
-import User from "../models/userModel.js";
-
+import userModel from "../models/userModel.js";
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
+import otpModel from "../models/otpModel.js";
 const transporter = nodemailer.createTransport(
     {
-        secure:true,
-        host:'smtp.gmail.com',
-        port:465,
-        auth:{
-            user : 'healthtravelalliance@gmail.com',
-            pass : 'emxy xbzs dflp louy'
+        secure: true,
+        host: 'smtp.gmail.com',
+        port: 465,
+        auth: {
+            user: 'healthtravelalliance@gmail.com',
+            pass: 'emxy xbzs dflp louy'
         }
 
     }
 )
 
+const createToken = (id) => {
+    return jwt.sign({ id }, process.env.JWT_SECRET)
+}
 
-
-const sendMailVerification =async (to,sub,code)=>{
-  await  transporter.sendMail(
+const sendMailVerification = async (to, sub, code) => {
+    await transporter.sendMail(
         {
-            to : to,
-            subject :sub ,
-            html : `verification code is ${code}`
+            to: to,
+            subject: sub,
+            html: `verification code is ${code}`
         }
     )
 }
 
-const userRegister = async (req,res)=>{
+const userRegister = async (req, res) => {
 
-    const {name,email,password,verifyCode} = req.body;
-    console.log(name,email,password,verifyCode);
-    console.log(temp.email,temp.code)
-    try{
-        
-    if(verifyCode == temp.code && email == temp.email){
-        const user = new User({username:email,name:name,cartData:{}});
-        const user2 = await User.register(user,password);
-        res.json({success:true,data:user});
+    const { name, email, password, otp } = req.body;
+    console.log(name, email, password, otp);
+    try {
+        const D_otp = await otpModel.find({ email }).sort({Date:-1});
+        console.log(D_otp)
+        const isVaild = (D_otp)=>{
+            const current = Date.now();
+            const tenmin = 10*60*1000;
+            const otpDate = D_otp[0].Date;
+            return tenmin>=current-otpDate;
+        }
+        console.log(isVaild(D_otp));
+        if (otp == D_otp[0].otp&&isVaild(D_otp)) {
+            
+            await otpModel.deleteMany({email})
+            //checking user already exists
+            const exists = await userModel.findOne({ email });
+            if (exists) {
+                return res.json({ success: false, message: 'user already exists' });
+            }
+            //validating email format & string pass
+            if (password.length < 8) {
+                return res.json({ success: false, message: "please enter a strong password" });
+            }
+            //hashing user pass
+            const salt = await bcrypt.genSalt(10);
+            const hashedpassword = await bcrypt.hash(password, salt);
+
+            const newUser = new userModel({
+                name: name,
+                email: email,
+                password: hashedpassword
+            });
+
+            const user = await newUser.save();
+            const token = createToken(user._id);
+            res.json({ success: true, message: "User successfully registered", token });
+        }
+        else {
+            res.json({ success: false, message: "otp is incorrect or expired" });
+        }
+
+    } catch (e) {
+        res.json({ success: false, message: `error ${e}` });
     }
-    else{
-        res.json({success:false,message:'verification code did not matched'});
-    }
-    }catch(e){
-        res.json({success:false,message:`cannot register user ${e}`});
-    }
+
 }
 
-const sendCode = (req,res)=>{
+const sendCode = async (req, res) => {
 
-    const code = Math.floor(Math.random()*100000)+100000;
+    const code = Math.floor(Math.random() * 100000) + 100000;
     const email = req.body.email;
-    temp = {code,email};
-    try{
-    sendMailVerification(email, sub, code);
-    console.log("code sent");
-    res.end();
-    }catch(e){
+
+
+    try {
+        const otp = new otpModel({ email: email, otp: code });
+        sendMailVerification(email, sub, code);
+        await otp.save();
+        console.log("code sent", otp);
+        res.end();
+    } catch (e) {
         res.send(e);
         //res.json({success:false,message:'cannot send verification code'})
     }
@@ -66,9 +101,27 @@ const sendCode = (req,res)=>{
 
 
 
-const userLogin =(req,res)=>{
-   res.json({success:true,message:'succussfully logged in'});
+const userLogin = async (req, res) => {
+    const { email, password } = req.body;
+    try {
+        const user = await userModel.findOne({ email: email });
+        if (!user) {
+            return res.json({ success: false, message: "user not exists please register" });
+        }
+        else {
+            const isMatch = await bcrypt.compare(password, user.password);
+            console.log(isMatch);
+            if (!isMatch) {
+                return res.json({ success: false, message: 'invaild credentials' });
+            }
+
+            const token = createToken(user._id);
+            res.json({ success: true, message: 'user logged in successflly', token })
+        }
+    } catch (e) {
+        res.json({ success: false, message: `login failed}` })
+    }
 }
 
 
-export {userRegister,userLogin,sendCode};
+export { userRegister, userLogin, sendCode };
