@@ -22,6 +22,7 @@ const LoginPopUp = ({ setShowLogin }) => {
               <input type="email" placeholder="Your emal" required />
               <button className="otp">Get OTP</button>
             </div>
+            <input type="conformOtp" placeholder="Conform Otp" required />
             <input type="password" placeholder="password" required />
           </div>
           <button>
