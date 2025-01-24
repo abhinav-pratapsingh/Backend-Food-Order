@@ -14,6 +14,7 @@ const fetchRestroPV = async(req,res)=>{
 const fetchRestroVH = async(req,res)=>{
     try{
         const restro = await restroModel.find({status:1}).sort({date:-1});
+        res.json({success:true,data:restro})
     }
     catch(e){
         console.log(e);
@@ -24,6 +25,7 @@ const fetchRestroVH = async(req,res)=>{
 const fetchRestroB = async (req,res)=>{
     try{
         const restro = await restroModel.find({status:3}).sort({date:-1});
+        res.json({success:true,data:restro})
     }
     catch(e){
         console.log(e);
