@@ -58,6 +58,3 @@ const nearRestro = async (req, res) => {
 }
 
 export { nearRestro };
-
-//const origin = '40.712776,-74.005974'; // Latitude,Longitude of New York
-//onst destination = '34.052235,-118.243683'; // Latitude,Longitude of Los Angeles
