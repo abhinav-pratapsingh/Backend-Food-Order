@@ -1,16 +1,16 @@
-import React, { useEffect, useState, useContext } from "react";
-import "./loginPopUp.css";
+import React, { useState, useContext } from "react";
+import "../loginPopUp/LoginPopUp.css";
 import { assets } from "../../assets/assets";
 import { Storecontext } from "../../context/Storecontext";
 import axios from "axios";
-import OTPButton from "./otpButton/OtpBitton";
+import OTPButton from "../loginPopUp/otpButton/OtpBitton";
 
-const LoginPopUp = ({ setShowLogin }) => {
+const RestaurentAdd = ({ setRestLogin }) => {
   const { url, setToken } = useContext(Storecontext);
-  const [currState, setCurrState] = useState("Sign Up");
+  const [currState, setCurrState] = useState("Add_Restaurent");
   const [data, setData] = useState({
-    name: "",
-    email: "",
+    restaurent_name: "",
+    restaurent_email: "",
     otp: "",
     password: "",
   });
@@ -20,79 +20,78 @@ const LoginPopUp = ({ setShowLogin }) => {
     const value = e.target.value;
     setData((data) => ({ ...data, [name]: value }));
   };
+  //   const onSend = async (e) => {
+  //     e.preventDefault();
+  //     let newUrl = "http://localhost:3000/api/user/send";
+  //     const res = await axios.post(newUrl, data);
+  //     if (!res.data.success) {
+  //       alert("enter email first");
+  //     } else {
+  //       alert(res.data.message);
+  //     }
+  //   };
 
-  const onSend = async (e) => {
-    e.preventDefault();
-    let newUrl = "http://localhost:3000/api/user/send";
-    const res = await axios.post(newUrl, data);
-    if (!res.data.success) {
-      alert("enter email first");
-    } else {
-      alert(res.data.message);
-    }
-  };
-
-  const onLogin = async (e) => {
-    e.preventDefault();
-    let newUrl = url;
-    if (currState === "Login") {
-      newUrl += "/api/user/login";
-    } else {
-      newUrl += "/api/user/register";
-    }
-    const res = await axios.post(newUrl, data);
-    if (res.data.success) {
-      setToken(res.data.token);
-      localStorage.setItem("token", res.data.token);
-      setShowLogin(false);
-    } else {
-      alert(res.data.message);
-    }
-  };
+  //   const onLogin = async (e) => {
+  //     e.preventDefault();
+  //     let newUrl = url;
+  //     if (currState === "Login") {
+  //       newUrl += "/api/user/login";
+  //     } else {
+  //       newUrl += "/api/user/register";
+  //     }
+  //     const res = await axios.post(newUrl, data);
+  //     if (res.data.success) {
+  //       setToken(res.data.token);
+  //       localStorage.setItem("token", res.data.token);
+  //       setRestLogin(false);
+  //     } else {
+  //       alert(res.data.message);
+  //     }
+  //   };
 
   return (
     <>
       <div className="login-popup">
         <form
-          onSubmit={onLogin}
+          //   onSubmit={onLogin}
           className="login-popup-container"
           data-aos="zoom-in"
         >
           <div className="login-popup-title">
             <h2>{currState}</h2>
-            <img onClick={() => setShowLogin(false)} src={assets.cross_icon} />
+            <img onClick={() => setRestLogin(false)} src={assets.cross_icon} />
           </div>
           <div className="login-popup-input">
-            {currState === "Login" ? (
+            {currState === "Restaurent_Login" ? (
               <></>
             ) : (
               <input
-                name="name"
+                name="restaurent_name"
                 onChange={onChangeHandler}
                 value={data.name}
                 type="text"
-                placeholder="Your name"
+                placeholder="Your restaurent name"
                 required
               />
             )}
             <div className="email-otp">
               <input
                 type="email"
-                name="email"
+                name="restaurent_email"
                 onChange={onChangeHandler}
                 value={data.email}
-                placeholder="Your emal"
+                placeholder="Your restaurent emal"
                 required
               />
-              {currState === "Login" ? (
+              {currState === "Restaurent_Login" ? (
                 ""
               ) : (
-                <button className="otp" type="submit" onClick={onSend}>
+                <button className="otp" type="submit" /*onClick={onSend}*/>
                   <OTPButton />
                 </button>
               )}
             </div>
-            {currState === "Login" ? (
+            {currState === "Restaurent_Login" ? (
               ""
             ) : (
               <input
@@ -114,21 +113,28 @@ const LoginPopUp = ({ setShowLogin }) => {
             />
           </div>
           <button type="submit">
-            {currState === "Sign Up" ? "Create account" : "Login"}
+            {currState === "Add_Restaurent"
+              ? "Create restaurent account"
+              : "Login restaurent"}
           </button>
           <div className="login-popup-condition">
             <input type="checkbox" required />
             <p>By continuing, i agree to term of use & privacy policy.</p>
           </div>
-          {currState === "Login" ? (
+          {currState === "Restaurent_Login" ? (
             <p>
-              Create a new account?
-              <span onClick={() => setCurrState("Sing UP")}>Click here</span>
+              Add Restaurent?
+              <span onClick={() => setCurrState("Add_Restaurent")}>
+                {" "}
+                Click for Add Restaurent here
+              </span>
             </p>
           ) : (
             <p>
               Already have an account?
-              <span onClick={() => setCurrState("Login")}>Login here</span>
+              <span onClick={() => setCurrState("Restaurent_Login")}>
+                Restaurent Login here
+              </span>
             </p>
           )}
         </form>
@@ -137,4 +143,4 @@ const LoginPopUp = ({ setShowLogin }) => {
   );
 };
 
-export default LoginPopUp;
+export default RestaurentAdd;

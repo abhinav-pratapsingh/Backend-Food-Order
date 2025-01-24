@@ -47,7 +47,7 @@
 
 .login-popup-container button{
     border: none;
-    padding: 10px;
+    padding: 4.5px;
     border-radius: 4px;
     color: #fff;
     background-color: tomato;
@@ -79,7 +79,7 @@
 
 .otp{
     position: absolute;
-    width: 30%;
+    width: 25%;
     right: 30px;
     /* margin-left: 10px; */
 }
