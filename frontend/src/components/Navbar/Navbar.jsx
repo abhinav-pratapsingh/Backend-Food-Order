@@ -4,9 +4,10 @@ import { assets } from "../../assets/assets";
 import { Link } from "react-router-dom";
 import { Storecontext } from "../../context/Storecontext";
 
-const Navbar = ({ setShowLogin }) => {
+const Navbar = ({ setShowLogin, setRestLogin }) => {
   const [menu, setMenu] = useState("Home");
-  const { getTotalCartAmount, token, setToken } = useContext(Storecontext);
+  const { getTotalCartAmount, token, tokens, setToken } =
+    useContext(Storecontext);
   return (
     <>
       <div className="navbar">
@@ -19,40 +20,26 @@ const Navbar = ({ setShowLogin }) => {
           />
         </Link>
         <ul className="navbar-menu">
-          <Link to="home">
-            <li
-              onClick={() => {
-                setMenu("Home");
-              }}
-              className={menu === "Home" ? "active" : ""}
-            >
-              Home
-            </li>
-          </Link>
-          <li
-            onClick={() => {
-              setMenu("Menu");
-            }}
-            className={menu === "Menu" ? "active" : ""}
-          >
-            Menu
-          </li>
-          <li
-            onClick={() => {
-              setMenu("Mobile-App");
-            }}
-            className={menu === "Mobile-App" ? "active" : ""}
-          >
-            Mobile App
-          </li>
-          <li
-            onClick={() => {
-              setMenu("Contact-Us");
-            }}
-            className={menu === "Contact-Us" ? "active" : ""}
-          >
-            Contact Us
-          </li>
+          {!tokens ? (
+            <button onClick={() => setRestLogin(true)}>
+              Add Your Restaurent Here
+            </button>
+          ) : (
+            <div className="navbar-profile">
+              <img src={assets.profile_icon} />
+              <ul className="nav-profile-dropdown">
+                <li>
+                  <img src={assets.bag_icon} alt="" />
+                  <p>Order</p>
+                </li>
+                <hr />
+                <li>
+                  <img src={assets.logout_icon} alt="" />
+                  <p>Log Out</p>
+                </li>
+              </ul>
+            </div>
+          )}
         </ul>
         <div className="navbar-right">
           <img src={assets.search_icon} />
@@ -63,19 +50,17 @@ const Navbar = ({ setShowLogin }) => {
             <div className={getTotalCartAmount() === 0 ? "" : "dot"}></div>
           </div>
           {!token ? (
-            <button onClick={() => setShowLogin(true)}>sign in</button>
+            <button onClick={() => setShowLogin(true)}>Log in / sign in</button>
           ) : (
             <div className="navbar-profile">
               <img src={assets.profile_icon} />
               <ul className="nav-profile-dropdown">
                 <li>
-                  {" "}
                   <img src={assets.bag_icon} alt="" />
                   <p>Order</p>
                 </li>
                 <hr />
                 <li>
-                  {" "}
                   <img src={assets.logout_icon} alt="" />
                   <p>Log Out</p>
                 </li>

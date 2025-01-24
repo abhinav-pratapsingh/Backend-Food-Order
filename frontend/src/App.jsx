@@ -16,7 +16,6 @@ const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element=<Layout />>
       <Route path="" element=<Home /> />
-      <Route path="home" element=<Home /> />
       <Route path="cart" element=<Cart /> />
       <Route path="/placeorder" element=<PlaceOrder /> />
     </Route>
@@ -35,9 +34,12 @@ const App = () => {
   }, []);
 
   return (
-    <div className="app">
-      <RouterProvider router={router} />
-    </div>
+    <>
+      {/* {showLogin ? <LoginPopUp setShowLogin={setShowLogin} /> : <></>} */}
+      <div className="app">
+        <RouterProvider router={router} />
+      </div>
+    </>
   );
 };
 

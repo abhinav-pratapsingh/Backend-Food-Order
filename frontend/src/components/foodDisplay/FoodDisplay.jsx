@@ -6,6 +6,17 @@ import FoodItem from "../foodItem/FoodItem";
 const FoodDisplay = ({ category }) => {
   const { food_list } = useContext(Storecontext);
 
+  // const { restaurantId } = useParams();
+  // const [menu, setMenu] = useState(null);
+
+  // useEffect(() => {
+  //   axios.get(`http://localhost:5000/api/menu/${restaurantId}`)
+  //     .then(response => setMenu(response.data))
+  //     .catch(error => console.error(error));
+  // }, [restaurantId]);
+
+  // if (!menu) return <div>Loading...</div>;
+
   return (
     <>
       <div className="food-display" id="food-display">
