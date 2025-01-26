@@ -8,6 +8,7 @@ const createToken = (id)=>{
 
 const restroRegister = async(req,res)=>{
     try{
+    let image = `${req.file.filename}`    
     const {email,password,phone,name,locality,district,state,pin_code,lati,longi} = req.body;
     const exists = await restroModel.findOne({email:email});
     if(exists){
@@ -31,6 +32,7 @@ const restroRegister = async(req,res)=>{
     const restro = new restroModel({
     name:name,
     address : obj,
+    image : image,
     email :email,
     password:hashedpassword,
     phone : phone,
