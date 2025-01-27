@@ -11,6 +11,8 @@ const fetchRestroPV = async(req,res)=>{
     }
 }
 
+//verification on hold
+
 const fetchRestroVH = async(req,res)=>{
     try{
         const restro = await restroModel.find({status:1}).sort({date:-1});
@@ -22,10 +24,12 @@ const fetchRestroVH = async(req,res)=>{
     }
 }
 
+// restro blocked
+
 const fetchRestroB = async (req,res)=>{
     try{
         const restro = await restroModel.find({status:3}).sort({date:-1});
-        res.json({success:true,data:restro})
+        res.json({success:true,data:restro}) 
     }
     catch(e){
         console.log(e);
@@ -43,5 +47,6 @@ const updateRestroStatus = async(req,res)=>{
         res.json({success:false,message:"error"});
     }
 }
+
 
 export {updateRestroStatus,fetchRestroB,fetchRestroPV,fetchRestroVH};

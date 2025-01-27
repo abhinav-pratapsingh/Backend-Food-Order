@@ -36,13 +36,17 @@ const authMiddlewareRestro = async (req,res,next)=>{
 
 const checkUserStaus = async (req,res,next)=>{
  try {
+    console.log(req.body.email)
     const user = await userModel.findOne({email:req.body.email});
+    if(!user){
+        res.json({success:false,message:"user not exists"});}
+    else{
     if(user.status==0){
         next();
     }
     else if (user.status==1){
         res.json({success:false,message:"account blocked"});
-    }
+    }}
  }catch (e) {
     console.log(e);
     res.json({success:false,message:"error"});
