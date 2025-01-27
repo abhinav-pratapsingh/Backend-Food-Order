@@ -3,11 +3,12 @@ import "../loginPopUp/LoginPopUp.css";
 import { assets } from "../../assets/assets";
 import { Storecontext } from "../../context/Storecontext";
 import axios from "axios";
-import OTPButton from "../loginPopUp/otpButton/OtpBitton";
+import "./RestaurentAdd.css";
+import { Link } from "react-router-dom";
 
 const RestaurentAdd = ({ setRestLogin }) => {
   const { url, setToken } = useContext(Storecontext);
-  const [currState, setCurrState] = useState("Add_Restaurent");
+  const [currState, setCurrState] = useState("Restaurent_Login");
   const [data, setData] = useState({
     restaurent_name: "",
     restaurent_email: "",
@@ -62,18 +63,20 @@ const RestaurentAdd = ({ setRestLogin }) => {
             <img onClick={() => setRestLogin(false)} src={assets.cross_icon} />
           </div>
           <div className="login-popup-input">
-            {currState === "Restaurent_Login" ? (
-              <></>
+            {/* {currState === "Restaurent_Login" ? (
+              <>{console.log("Hello")}</>
             ) : (
-              <input
+              {
+                <input
                 name="restaurent_name"
                 onChange={onChangeHandler}
                 value={data.name}
                 type="text"
                 placeholder="Your restaurent name"
                 required
-              />
-            )}
+              /> 
+              }
+            )} */}
             <div className="email-otp">
               <input
                 type="email"
@@ -83,15 +86,15 @@ const RestaurentAdd = ({ setRestLogin }) => {
                 placeholder="Your restaurent emal"
                 required
               />
-              {currState === "Restaurent_Login" ? (
+              {/* {currState === "Restaurent_Login" ? (
                 ""
               ) : (
-                <button className="otp" type="submit" /*onClick={onSend}*/>
+                <button className="otp" type="submit" onClick={onSend}>
                   <OTPButton />
                 </button>
-              )}
+              )} */}
             </div>
-            {currState === "Restaurent_Login" ? (
+            {/* {currState === "Restaurent_Login" ? (
               ""
             ) : (
               <input
@@ -102,7 +105,7 @@ const RestaurentAdd = ({ setRestLogin }) => {
                 placeholder="Conform Otp"
                 required
               />
-            )}
+            )} */}
             <input
               type="password"
               name="password"
@@ -112,31 +115,17 @@ const RestaurentAdd = ({ setRestLogin }) => {
               required
             />
           </div>
-          <button type="submit">
-            {currState === "Add_Restaurent"
-              ? "Create restaurent account"
-              : "Login restaurent"}
-          </button>
+          <button type="submit">Login</button>
           <div className="login-popup-condition">
             <input type="checkbox" required />
             <p>By continuing, i agree to term of use & privacy policy.</p>
           </div>
-          {currState === "Restaurent_Login" ? (
-            <p>
-              Add Restaurent?
-              <span onClick={() => setCurrState("Add_Restaurent")}>
-                {" "}
-                Click for Add Restaurent here
-              </span>
-            </p>
-          ) : (
-            <p>
-              Already have an account?
-              <span onClick={() => setCurrState("Restaurent_Login")}>
-                Restaurent Login here
-              </span>
-            </p>
-          )}
+          <div className="Add_restaurent">
+            <p>Add Your Restaurent Here.</p>
+            <Link to="/AddRestaurent">
+              <span onClick={() => setRestLogin(false)}>Add Restaurent</span>
+            </Link>
+          </div>
         </form>
       </div>
     </>

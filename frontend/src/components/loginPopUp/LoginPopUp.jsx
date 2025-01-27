@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import "./loginPopUp.css";
 import { assets } from "../../assets/assets";
 import { Storecontext } from "../../context/Storecontext";
@@ -15,6 +15,14 @@ const LoginPopUp = ({ setShowLogin }) => {
     password: "",
   });
 
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      setToken(token);
+      setShowLogin(false);
+    }
+  }, [setToken, setShowLogin]);
+
   const onChangeHandler = (e) => {
     const name = e.target.name;
     const value = e.target.value;
@@ -23,8 +31,9 @@ const LoginPopUp = ({ setShowLogin }) => {
 
   const onSend = async (e) => {
     e.preventDefault();
-    let newUrl = "http://localhost:3000/api/user/send";
+    const newUrl = "http://localhost:3000/api/user/send";
     const res = await axios.post(newUrl, data);
+    console.log(res);
     if (!res.data.success) {
       alert("enter email first");
     } else {

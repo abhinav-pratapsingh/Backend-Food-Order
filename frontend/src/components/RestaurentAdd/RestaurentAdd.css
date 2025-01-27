@@ -1,0 +1,22 @@
+.Add_restaurent{
+    display: flex !important;
+    justify-content: space-between;
+    text-align: center;
+    align-items: center;
+}
+
+.Add_restaurent span{
+    padding: 10px;
+    border: 1px solid tomato;
+    background-color: tomato;
+    color: #fff;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: .5s all;
+}
+
+.Add_restaurent span:hover{
+    border: 1px solid rgba(255, 99, 71, 0.331);
+    background-color: rgba(255, 99, 71, 0.331);
+    color: rgba(0, 0, 0, 0.803);
+}
