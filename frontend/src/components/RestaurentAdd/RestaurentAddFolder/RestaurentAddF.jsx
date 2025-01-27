@@ -6,6 +6,7 @@ import { Storecontext } from "../../../context/Storecontext";
 
 const RestaurentAddF = () => {
   const { url, setToken } = useContext(Storecontext);
+  const [image, setImage] = useState(null);
   const [data, setData] = useState({
     name: "",
     email: "",
@@ -30,14 +31,43 @@ const RestaurentAddF = () => {
     e.preventDefault();
     let newUrl = url;
     newUrl += "/api/restro/register";
-    const res = await axios.post(newUrl, data);
+
+    const formData = new FormData();
+    formData.append("name", data.name);
+    formData.append("email", data.email);
+    formData.append("otp", data.otp);
+    formData.append("password", data.password);
+    formData.append("phone", data.phone);
+    formData.append("locality", data.locality);
+    formData.append("district", data.district);
+    formData.append("state", data.state);
+    formData.append("pin_code", data.pin_code);
+    formData.append("lati", data.lati);
+    formData.append("longi", data.longi);
+    formData.append("image", image);
+
+    const res = await axios.post(newUrl, formData);
+    console.log(formData);
     if (res.data.success) {
+      setData({
+        name: "",
+        email: "",
+        otp: "",
+        password: "",
+        phone: "",
+        locality: "",
+        district: "",
+        state: "",
+        pin_code: "",
+        lati: "",
+        longi: "",
+      });
+      setImage(false);
       setToken(res.data.success);
       localStorage.setItem("token", res.data.token);
     } else {
-      alert("Error");
+      alert(res.data.message);
     }
-    console.log(res.data);
   };
 
   const onSend = async (e) => {
@@ -60,6 +90,12 @@ const RestaurentAddF = () => {
         <div className="form-start">
           <form onSubmit={register}>
             <div className="form-input">
+              <input
+                type="file"
+                name="image"
+                onChange={(e) => setImage(e.target.files[0])}
+                required
+              />
               <input
                 placeholder="Restaurent Name"
                 name="name"
