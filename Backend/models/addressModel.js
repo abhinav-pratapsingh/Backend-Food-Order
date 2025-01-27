@@ -15,4 +15,4 @@ const addressSChema = new mongoose.Schema({
 
     const addressModel = mongoose.model.addressModel || mongoose.model('addressModel',addressSChema);
 
-    export default addressModel; 
+    export default addressModel;

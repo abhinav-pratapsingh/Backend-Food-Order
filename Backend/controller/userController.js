@@ -44,8 +44,7 @@ const userRegister = async (req, res) => {
             const otpDate = D_otp[0].Date;
             return tenmin>=current-otpDate;
         }
-        console.log(isVaild(D_otp));
-        if (otp == D_otp[0].otp&&isVaild(D_otp)) {
+        if (otp == D_otp[0].otp&&isVaild(D_otp)){
             
             await otpModel.deleteMany({email})
             //checking user already exists
@@ -93,7 +92,6 @@ const sendCode = async (req, res) => {
         const otp = new otpModel({ email: email, otp: code });
         sendMailVerification(email, sub, code);
         await otp.save();
-        console.log("code sent", otp);
         res.json({success:true,message:"OTP sent successfully"});
     } catch (e){
         res.send(e);
