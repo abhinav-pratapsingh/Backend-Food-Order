@@ -5,7 +5,7 @@ import axios from "axios";
 
 const AddItem = () => {
   const { url } = useContext(Storecontext);
-  // const [restroId, setRestroId] = useState(null);
+  const [restroId, setRestroId] = useState(null);
   const [image, setImage] = useState(null);
   const [data, setData] = useState({
     name: "",
@@ -14,14 +14,14 @@ const AddItem = () => {
     category: "",
   });
 
-  // useEffect(() => {
-  //   const id = localStorage.getItem("tokens");
-  //   if (id) {
-  //     setRestroId(id);
-  //   } else {
-  //     alert("Restaurant ID not found. Please log in again.");
-  //   }
-  // }, []);
+  useEffect(() => {
+    const id = localStorage.getItem("tokens");
+    if (id) {
+      setRestroId(id);
+    } else {
+      alert("Restaurant ID not found. Please log in again.");
+    }
+  }, []);
 
   const onChangeHandler = (e) => {
     const name = e.target.name;
@@ -32,14 +32,22 @@ const AddItem = () => {
   const AddMenu = async (e) => {
     e.preventDefault();
 
-    // if (!restroId) {
-    //   alert("Restaurant ID is missing. Please log in again.");
-    //   window.location.href = "/login";
-    //   return;
-    // }
+    if (!restroId) {
+      alert("Restaurant ID is missing. Please log in again.");
+      window.location.href = "/login";
+      return;
+    }
+
+
     let newUrl = url;
     newUrl += "/api/food/add";
     console.log(newUrl);
+    const login_data = {
+      headers: {
+        'Content-Type': 'application/json', // Specify content type
+        'token': restroId, // Example authorization header
+      }
+    }
     const formData = new FormData();
     formData.append("name", data.name);
     formData.append("price", data.price);
@@ -48,7 +56,7 @@ const AddItem = () => {
     formData.append("image", image);
 
     try {
-      const res = await axios.post(newUrl, formData);
+      const res = await axios.post(newUrl, formData,login_data);
 
       if (res.data.success) {
         setData({
