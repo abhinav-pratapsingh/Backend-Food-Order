@@ -44,7 +44,6 @@ const AddItem = () => {
     console.log(newUrl);
     const login_data = {
       headers: {
-        'Content-Type': 'application/json', // Specify content type
         'token': restroId, // Example authorization header
       }
     }
