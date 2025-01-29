@@ -13,7 +13,6 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({storage:storage});
-
 restroRouter.post("/register",upload.single('image'),restroRegister);
 restroRouter.post("/login",checkRestroStatus,restroLogin);
 restroRouter.get("/near",authMiddleware,nearRestro);
