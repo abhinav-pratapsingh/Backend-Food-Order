@@ -11,7 +11,7 @@ const createToken = (id) => {
 const restroRegister = async (req, res) => {
     try {
 
-        let image = `${req.file.filename}`
+        let image = `${req.file.filename}`;
         const { email, password, phone, name, locality, district, state, pin_code, lati, longi, otp } = req.body;
 
         const v_otp = await otpModel.find({ email }).sort({ Date: -1 });
@@ -25,7 +25,7 @@ const restroRegister = async (req, res) => {
 
         }
 
-        if (otp == v_otp[0].otp && isVaild(v_otp)) {
+        if (otp == v_otp[0].otp && isVaild(v_otp)){
             await otpModel.deleteMany({ email });
             const exists = await restroModel.findOne({ email: email });
             if (exists) {
@@ -81,7 +81,7 @@ const restroLogin = async (req, res) => {
     try {
         const { password, email } = req.body;
         const restro = await restroModel.findOne({ email: email })
-        const compare = bcrypt.compare(password, restro.password);
+        const compare = await bcrypt.compare(password, restro.password);
         if (compare) {
             const token = createToken(restro._id);
             res.json({ success: true, message: "login successfull", token });
