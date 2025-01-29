@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import Layout from "./components/Layout/Layout";
 import {
   createBrowserRouter,
   createRoutesFromElements,
   Route,
   RouterProvider,
+  Navigate,
 } from "react-router-dom";
 import Cart from "../Pages/Cart/Cart";
 import Home from "../Pages/Home/Home";
@@ -13,6 +14,20 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import Exploremenu from "./components/Exploremenu/Exploremenu";
 import RestaurentAddF from "./components/RestaurentAdd/RestaurentAddFolder/RestaurentAddF";
+// import RestaurentAdmin from "./components/RestaurentAdd/RestaurentAdminPortal/RestaurentAdmin/RestaurentAdmin";
+import AddItem from "./components/RestaurentAdd/RestaurentAdminPortal/AddItem/AddItem";
+import Layout1 from "./components/RestaurentAdd/Layoyt1";
+import MenuList from "./components/RestaurentAdd/RestaurentAdminPortal/MenuList/MenuList";
+import OrderList from "./components/RestaurentAdd/RestaurentAdminPortal/OrderList/OrderList";
+
+import RestaurentAdd from "./components/RestaurentAdd/RestaurentAdd";
+import StoreContextProvider, { Storecontext } from "./context/Storecontext";
+
+const ProtectedRoute = ({ children }) => {
+  const { isLoggedIn } = useContext(Storecontext);
+
+  return isLoggedIn ? children : <Navigate to="/AddRestaurent" />;
+};
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -21,6 +36,19 @@ const router = createBrowserRouter(
       <Route path="cart" element=<Cart /> />
       <Route path="/placeorder" element=<PlaceOrder /> />
       <Route path="/AddRestaurent" element=<RestaurentAddF /> />
+      <Route path="/AddRestaurent" element={<RestaurentAdd />} />
+      <Route
+        path="Layout1"
+        element={
+          <ProtectedRoute>
+            <Layout1 />
+          </ProtectedRoute>
+        }
+      >
+        <Route path="Add_item" element=<AddItem /> />
+        <Route path="Your_Menu" element=<MenuList /> />
+        <Route path="Check-Order" element=<OrderList /> />
+      </Route>
     </Route>
   )
 );
@@ -38,9 +66,11 @@ const App = () => {
 
   return (
     <>
-      <div className="app">
-        <RouterProvider router={router} />
-      </div>
+      <StoreContextProvider>
+        <div className="app">
+          <RouterProvider router={router} />
+        </div>
+      </StoreContextProvider>
     </>
   );
 };

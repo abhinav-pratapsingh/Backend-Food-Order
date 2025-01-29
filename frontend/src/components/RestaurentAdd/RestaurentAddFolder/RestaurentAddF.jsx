@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import "./RestaurentAddF.css";
 import OTPButton from "../../loginPopUp/otpButton/OtpBitton";
 import axios from "axios";
@@ -20,6 +20,30 @@ const RestaurentAddF = () => {
     lati: "",
     longi: "",
   });
+
+  const location = () => {
+    alert(
+      "Click here to give access to your current location click on the input field. (अपने वर्तमान स्थान तक पहुंच देने के लिए यहां क्लिक करें इनपुट फ़ील्ड पर क्लिक करें।)"
+    );
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const latitude = position.coords.latitude;
+          const longitude = position.coords.longitude;
+          setData((prevData) => ({
+            ...prevData,
+            lati: latitude,
+            longi: longitude,
+          }));
+        },
+        (error) => {
+          console.error("Error getting location:", error);
+        }
+      );
+    } else {
+      console.error("Geolocation is not supported by this browser.");
+    }
+  };
 
   const onChangeHandler = (e) => {
     const name = e.target.name;
@@ -63,7 +87,7 @@ const RestaurentAddF = () => {
         longi: "",
       });
       setImage(false);
-      setToken(res.data.success);
+      // setToken(res.data.success);
       localStorage.setItem("token", res.data.token);
     } else {
       alert(res.data.message);
@@ -173,22 +197,30 @@ const RestaurentAddF = () => {
                 onChange={onChangeHandler}
                 required
               />
-              <input
-                placeholder="latitude"
-                name="lati"
-                type="text"
-                value={data.lati}
-                onChange={onChangeHandler}
-                required
-              />
-              <input
-                placeholder="longitude"
-                name="longi"
-                type="text"
-                value={data.longi}
-                onChange={onChangeHandler}
-                required
-              />
+              <div className="location">
+                <input
+                  placeholder="latitude"
+                  name="lati"
+                  type="text"
+                  value={data.lati}
+                  onChange={onChangeHandler}
+                  required
+                  readOnly
+                />
+                <input
+                  placeholder="longitude"
+                  name="longi"
+                  type="text"
+                  value={data.longi}
+                  onChange={onChangeHandler}
+                  readOnly
+                  required
+                />
+                <p onClick={location}>
+                  Click here to your Current Location (latitude & longitude)
+                </p>
+                <span>Make sure you are in your restaurent Location ?</span>
+              </div>
               <button type="submit" className="submitButton">
                 Submit Form
               </button>

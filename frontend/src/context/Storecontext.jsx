@@ -7,7 +7,7 @@ const StoreContextProvider = (props) => {
   //Add to cart funtion
   const [cartItems, setCartItems] = useState({});
   const url = "http://localhost:3000";
-  const [token, setToken] = useState("");
+  const [forLoginToken, setForLoginToken] = useState("");
 
   const addToCart = (itemId) => {
     // setCartItems({ ...prev, [itemId]: 1 });
@@ -36,7 +36,22 @@ const StoreContextProvider = (props) => {
     return totalAmount;
   };
 
-  console.log(getTotalCartAmount());
+  const [isLoggedIn, setIsLoggedIn] = useState(
+    !!localStorage.getItem("tokens")
+  );
+  const [tokens, setTokens] = useState(localStorage.getItem("tokens") || "");
+
+  const login = (tokens) => {
+    localStorage.setItem("tokens", tokens);
+    setTokens();
+    setIsLoggedIn(true);
+  };
+
+  const logout1 = () => {
+    localStorage.removeItem("tokens");
+    setTokens("");
+    setIsLoggedIn(false);
+  };
 
   const contextValue = {
     food_list,
@@ -46,8 +61,15 @@ const StoreContextProvider = (props) => {
     removeFromCart,
     getTotalCartAmount,
     url,
-    token,
-    setToken,
+    forLoginToken,
+    setForLoginToken,
+
+    // Authentication-related values
+    isLoggedIn,
+    tokens,
+    setTokens,
+    login,
+    logout1,
   };
 
   return (

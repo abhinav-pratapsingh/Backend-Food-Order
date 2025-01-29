@@ -9,7 +9,7 @@ const RestaurantCard = () => {
         <div className="card-details">
           <div className="rest-img">
             <img src={assets.food_1} />
-            <h1>20% OFF UPTO &#8377;</h1>
+            <h2>20% OFF UPTO &#8377;</h2>
           </div>
           <div className="rest-text">
             <h3 className="restaurent-name">Maa Ki Rasoi</h3>
