@@ -9,7 +9,7 @@ const restroRouter = express.Router();
 
 restroRouter.post("/register", upload_middleware, trimValues, restroRegister);
 restroRouter.post("/login",trimValues,checkRestroStatus,restroLogin);
-restroRouter.get("/near",trimValues,authMiddleware,nearRestro);
-restroRouter.get("/district",trimValues,districtRestro);
+restroRouter.post("/near",trimValues,nearRestro);
+restroRouter.post("/district",trimValues,districtRestro);
 
 export default restroRouter ;
