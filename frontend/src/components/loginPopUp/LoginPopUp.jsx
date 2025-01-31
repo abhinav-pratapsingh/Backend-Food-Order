@@ -116,14 +116,13 @@ const LoginPopUp = ({ setShowLogin }) => {
     // formData.append("longi", longi);
 
     console.log("Form Data Sent:", {
-      district: "MZN",
+      district: district,
       lati: lati,
       longi: longi,
     });
 
     const res = await axios.post(newUrl, dataToSend);
     setRestDisplay(res);
-    console.log(res);
     if (res.data.success) {
       setDistrict("");
       setLatitude("");
