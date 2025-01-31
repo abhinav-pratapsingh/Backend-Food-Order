@@ -28,6 +28,9 @@ const calculateDistance = async (origin, destination) => {
             
             {
                 name: destination[index].name,
+                _id: destination[index]._id,
+                address:destination[index].address,
+                image:destination[index].image,
                 distance: Math.floor(itr / 100) / 10
             }))
         return (proceededData);
@@ -38,11 +41,37 @@ const calculateDistance = async (origin, destination) => {
     }
 };
 
+// const nearRestro = async (req, res) => {
+//     try{
+//     const userAddress = await addressModel.findOne({ userId: req.body.userId });
+//     const origin = [userAddress.longi, userAddress.lati];
+//     const restros = await restroModel.find({ 'address.district': userAddress.district, status: 3 });
+//     if(restros.length === 0){
+//         console.log(restros)
+//         res.json({success:false,message:"no restro found"})
+//     }
+//     else{
+//     const coordinatesArray = await restros.map((restros) => ({
+//         coordinates: [restros.address.longi, restros.address.lati],
+//         name: restros.name
+//     }))
+//     const data = await calculateDistance(origin, coordinatesArray);
+//     const dataSorted = data.sort((a, b) => b.distance - a.distance).reverse();
+
+//     res.json({ success: true, data: dataSorted });}
+// }catch{
+//     res.json({success:false,message:"something went wrong"})
+// }
+
+// }
+
+
 const nearRestro = async (req, res) => {
     try{
-    const userAddress = await addressModel.findOne({ userId: req.body.userId });
-    const origin = [userAddress.longi, userAddress.lati];
-    const restros = await restroModel.find({ 'address.district': userAddress.district, status: 3 });
+
+    const origin = [req.body.longi, req.body.lati];
+    const district = req.body.district;
+    const restros = await restroModel.find({ 'address.district': district, status: 3 });
     if(restros.length === 0){
         console.log(restros)
         res.json({success:false,message:"no restro found"})
@@ -50,7 +79,11 @@ const nearRestro = async (req, res) => {
     else{
     const coordinatesArray = await restros.map((restros) => ({
         coordinates: [restros.address.longi, restros.address.lati],
-        name: restros.name
+        name: restros.name,
+        _id: restros._id,
+        address:restros.address,
+        image:restros.image
+
     }))
     const data = await calculateDistance(origin, coordinatesArray);
     const dataSorted = data.sort((a, b) => b.distance - a.distance).reverse();
@@ -61,5 +94,6 @@ const nearRestro = async (req, res) => {
 }
 
 }
+
 
 export { nearRestro };
