@@ -101,21 +101,33 @@ const LoginPopUp = ({ setShowLogin }) => {
   const userLocation = async (e) => {
     e.preventDefault();
 
-    let newUrl = "https://localhost:3000/api/restro/near";
+    let newUrl = "http://localhost:3000/api/restro/near";
 
-    const formData = new FormData();
-    formData.append("district", district);
-    formData.append("lati", lati);
-    formData.append("longi", longi);
+    const dataToSend = {
+      district: "MZN",
+      lati: lati,
+      longi: longi,
+    };
 
-    const res = await axios.post(newUrl, formData);
+    // const formData = new FormData();
+    // formData.append("district", district);
+    // formData.append("lati", lati);
+    // formData.append("longi", longi);
+
+    console.log("Form Data Sent:", {
+      district: district,
+      lati: lati,
+      longi: longi,
+    });
+
+    const res = await axios.post(newUrl, dataToSend);
     if (res.data.success) {
       setDistrict("");
       setLatitude("");
       setLongitude("");
       alert("Done");
     } else {
-      alert("Error");
+      alert(res.data.message);
     }
   };
 
@@ -175,6 +187,7 @@ const LoginPopUp = ({ setShowLogin }) => {
               />
             )}
             <input
+              onClick={userLocation}
               type="password"
               name="password"
               onChange={onChangeHandler}
@@ -183,7 +196,7 @@ const LoginPopUp = ({ setShowLogin }) => {
               required
             />
           </div>
-          <button type="submit" onClick={userLocation}>
+          <button type="submit">
             {currState === "Sign Up" ? "Create account" : "Login"}
           </button>
           <div className="login-popup-condition">
