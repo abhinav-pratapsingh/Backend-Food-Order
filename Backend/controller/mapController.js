@@ -42,7 +42,7 @@ const nearRestro = async (req, res) => {
     try{
     const userAddress = await addressModel.findOne({ userId: req.body.userId });
     const origin = [userAddress.longi, userAddress.lati];
-    const restros = await restroModel.find({ 'address.district': userAddress.district, status: 2 });
+    const restros = await restroModel.find({ 'address.district': userAddress.district, status: 3 });
     if(restros.length === 0){
         console.log(restros)
         res.json({success:false,message:"no restro found"})

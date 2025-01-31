@@ -1,21 +1,15 @@
 import express from 'express';
-import { restroLogin,restroRegister } from '../controller/restroController.js';
+import { districtRestro, restroLogin,restroRegister } from '../controller/restroController.js';
 import { authMiddleware, checkRestroStatus } from '../middleware/auth.js';
 import { nearRestro } from '../controller/mapController.js';
-import multer from 'multer';
+import trimValues from '../middleware/trimValues.js';
+import upload_middleware from '../config/multer.js';
+
 const restroRouter = express.Router();
 
-const storage = multer.diskStorage({
-    destination: "restro_uploads",
-    filename:(req,file,cb)=>{
-        return cb(null,`${Date.now()}${file.originalname}`);
-    }
-});
+restroRouter.post("/register", upload_middleware, trimValues, restroRegister);
+restroRouter.post("/login",trimValues,checkRestroStatus,restroLogin);
+restroRouter.get("/near",trimValues,authMiddleware,nearRestro);
+restroRouter.get("/district",trimValues,districtRestro);
 
-const upload = multer({storage:storage});
-restroRouter.post("/register",upload.single('image'),restroRegister);
-restroRouter.post("/login",checkRestroStatus,restroLogin);
-restroRouter.get("/near",authMiddleware,nearRestro);
-
-
-export default restroRouter;
+export default restroRouter ;

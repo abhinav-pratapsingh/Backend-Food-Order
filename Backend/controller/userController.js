@@ -83,13 +83,15 @@ const userRegister = async (req, res) => {
 const sendCode = async (req, res) => {
 
     const code = Math.floor(Math.random() * 100000) + 100000;
+    console.log(code);
    
     const email = req.body.email;
+    console.log(email);
     if(!email){
        return res.json({success:false,message:"please enter email"})
     }
     try {
-        const otp = new otpModel({ email: email, otp: code });
+        const otp = new otpModel({ email: email, otp: code, Date : new Date() });
         sendMailVerification(email, sub, code);
         await otp.save();
         res.json({success:true,message:"OTP sent successfully"});

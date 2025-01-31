@@ -11,7 +11,6 @@ const createToken = (id) => {
 const restroRegister = async (req, res) => {
   try {
     let image = `${req.file.filename}`;
-    console.log(image);
     const {
       email,
       password,
@@ -25,8 +24,9 @@ const restroRegister = async (req, res) => {
       longi,
       otp,
     } = req.body;
+    
 
-    const v_otp = await otpModel.find({ email }).sort({ Date: -1 });
+    const v_otp = await otpModel.find({ email }).sort({ 'Date' : -1 });
 
     const isVaild = (v_otp) => {
       const current = Date.now();
@@ -86,7 +86,7 @@ const restroRegister = async (req, res) => {
 const restroLogin = async (req, res) => {
   try {
     const { password, email } = req.body;
-    const restro = await restroModel.findOne({ email: email });
+    const restro = await restroModel.findOne({ email: email});
     const compare = await bcrypt.compare(password, restro.password);
     if (compare) {
       const token = createToken(restro._id);
@@ -100,4 +100,22 @@ const restroLogin = async (req, res) => {
   }
 };
 
-export { restroRegister, restroLogin };
+const districtRestro = async(req,res)=>{
+  if (!req.body.district){
+    return res.json({success:false,message:"No district is provided"});
+  }
+  try{
+  const district = req.body.district.trim();
+  console.log(district)
+  const data = await restroModel.find({'address.district':district,status:3})
+  console.log(data)
+  if(data.length===0){
+    return res.json({success:true,message:"no restaurent found in given district"});
+  }
+  res.json({success:true,message:"found..",data});
+  }catch(e){
+    res.json({success:false,message:"cannot find restaurents"});
+  }
+}
+
+export { restroRegister, restroLogin,districtRestro };
