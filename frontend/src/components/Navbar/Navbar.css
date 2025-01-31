@@ -105,6 +105,11 @@
     list-style: none;
 }
 
+h3{
+    font-size: 12px;
+    color: rgba(0, 0, 0, 0.733);
+}
+
 @media (max-width:1050px) {
     .navbar .logo{
       width: 130px;

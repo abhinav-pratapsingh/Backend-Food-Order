@@ -8,6 +8,9 @@ import OTPButton from "./otpButton/OtpBitton";
 const LoginPopUp = ({ setShowLogin }) => {
   const { url, setForLoginToken } = useContext(Storecontext);
   const [currState, setCurrState] = useState("Sign Up");
+  const [district, setDistrict] = useState();
+  const [lati, setLatitude] = useState();
+  const [longi, setLongitude] = useState();
   const [data, setData] = useState({
     name: "",
     email: "",
@@ -18,7 +21,7 @@ const LoginPopUp = ({ setShowLogin }) => {
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
-      setToken(token);
+      setForLoginToken(token);
       setShowLogin(false);
     }
   }, [setForLoginToken, setShowLogin]);
@@ -52,10 +55,67 @@ const LoginPopUp = ({ setShowLogin }) => {
     const res = await axios.post(newUrl, data);
     if (res.data.success) {
       setForLoginToken(res.data.token);
-      localStorage.setItem("token", res.data.token);
+      // localStorage.setItem("token", res.data.token);
       setShowLogin(false);
     } else {
       alert(res.data.message);
+    }
+  };
+
+  const location = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const latitude = position.coords.latitude;
+          const longitude = position.coords.longitude;
+          dist(latitude, longitude);
+          setLatitude(latitude);
+          setLongitude(longitude);
+        },
+        (error) => {
+          console.error("Error getting location:", error);
+        }
+      );
+    } else {
+      console.error("Geolocation is not supported by this browser.");
+    }
+
+    const dist = async (latitude, longitude) => {
+      let apiEndPoint = "https://api.opencagedata.com/geocode/v1/json";
+      let apikey = "416911d3a90940a6ba7ba4f7aaaa402e";
+
+      const query = `${latitude},${longitude}`;
+      const apiUrl = `${apiEndPoint}?key=${apikey}&q=${query}&pretty=1`;
+
+      try {
+        const res = await axios(apiUrl);
+        const data = res.data;
+        const dist = data.results[0].components.state_district;
+        setDistrict(dist);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+  };
+
+  const userLocation = async (e) => {
+    e.preventDefault();
+
+    let newUrl = "https://localhost:3000/api/restro/near";
+
+    const formData = new FormData();
+    formData.append("district", district);
+    formData.append("lati", lati);
+    formData.append("longi", longi);
+
+    const res = await axios.post(newUrl, formData);
+    if (res.data.success) {
+      setDistrict("");
+      setLatitude("");
+      setLongitude("");
+      alert("Done");
+    } else {
+      alert("Error");
     }
   };
 
@@ -86,6 +146,7 @@ const LoginPopUp = ({ setShowLogin }) => {
             )}
             <div className="email-otp">
               <input
+                onClick={location}
                 type="email"
                 name="email"
                 onChange={onChangeHandler}
@@ -122,7 +183,7 @@ const LoginPopUp = ({ setShowLogin }) => {
               required
             />
           </div>
-          <button type="submit">
+          <button type="submit" onClick={userLocation}>
             {currState === "Sign Up" ? "Create account" : "Login"}
           </button>
           <div className="login-popup-condition">
@@ -132,7 +193,11 @@ const LoginPopUp = ({ setShowLogin }) => {
           {currState === "Login" ? (
             <p>
               Create a new account?
-              <span onClick={() => setCurrState("Sing UP")}>Click here</span>
+              <span
+                onClick={() => (setCurrState("Sing UP"), setShowLogin(false))}
+              >
+                Click here
+              </span>
             </p>
           ) : (
             <p>
