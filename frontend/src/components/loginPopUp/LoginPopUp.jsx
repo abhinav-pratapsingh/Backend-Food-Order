@@ -104,7 +104,7 @@ const LoginPopUp = ({ setShowLogin }) => {
     let newUrl = "http://localhost:3000/api/restro/near";
 
     const dataToSend = {
-      district: "MZN",
+      district: district,
       lati: lati,
       longi: longi,
     };
