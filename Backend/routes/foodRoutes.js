@@ -9,7 +9,7 @@ import upload_middleware from '../config/multer.js';
 const foodRouter = express.Router();
 
 foodRouter.post('/add',trimValues,authMiddlewareRestro, upload_middleware, addfood);
-foodRouter.get('/list', authMiddlewareRestro, listFood);
+foodRouter.post('/list', authMiddlewareRestro, listFood);
 foodRouter.post('/remove',trimValues,authMiddlewareRestro, removeFood);
 
-export default foodRouter;
+export default foodRouter ;

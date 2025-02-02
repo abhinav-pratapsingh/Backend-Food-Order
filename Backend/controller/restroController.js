@@ -10,7 +10,7 @@ const createToken = (id) => {
 
 const restroRegister = async (req, res) => {
   try {
-    let image = `${req.file.filename}`;
+    let image = `${req.imageUrl}`;
     const {
       email,
       password,
