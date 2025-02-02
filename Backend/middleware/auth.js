@@ -55,6 +55,7 @@ const checkUserStaus = async (req,res,next)=>{
 
 const checkRestroStatus = async (req,res,next)=>{
     console.log(req.body.email)
+    console.log(req.headers)
     try {
         const restro = await restroModel.findOne({email:req.body.email});
         if(!restro){
