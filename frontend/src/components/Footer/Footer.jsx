@@ -1,9 +1,10 @@
 import React from "react";
 import { assets } from "../../assets/assets";
 import "./Footer.css";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 const Footer = () => {
+  const navigate = useNavigate();
   return (
     <>
       <div className="footer">
@@ -32,8 +33,10 @@ const Footer = () => {
           <div className="footer-content-center">
             <h2>COMPANY</h2>
             <ul>
-              <li>Home</li>
-              <li>About</li>
+              <NavLink to="/">
+                <li>Home</li>
+              </NavLink>
+              <li navigate="/about">About</li>
               <li>Mobile No.</li>
               <li>Contact Us</li>
             </ul>

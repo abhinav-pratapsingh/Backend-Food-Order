@@ -8,7 +8,7 @@ import OTPButton from "./otpButton/OtpBitton";
 const LoginPopUp = ({ setShowLogin }) => {
   const { url, setForLoginToken } = useContext(Storecontext);
   const [currState, setCurrState] = useState("Sign Up");
-  const [restDisplay, setRestDisplay] = useState();
+  // const [restDisplay, setRestDisplay] = useState();
   const [district, setDistrict] = useState();
   const [lati, setLatitude] = useState();
   const [longi, setLongitude] = useState();
@@ -122,7 +122,8 @@ const LoginPopUp = ({ setShowLogin }) => {
     });
 
     const res = await axios.post(newUrl, dataToSend);
-    setRestDisplay(res);
+    console.log(res);
+    // setRestDisplay(res);
     if (res.data.success) {
       setDistrict("");
       setLatitude("");
@@ -133,7 +134,7 @@ const LoginPopUp = ({ setShowLogin }) => {
     }
   };
 
-  console.log(restDisplay);
+  // console.log(restDisplay);
 
   return (
     <>

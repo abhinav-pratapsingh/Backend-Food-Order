@@ -14,7 +14,6 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import Exploremenu from "./components/Exploremenu/Exploremenu";
 import RestaurentAddF from "./components/RestaurentAdd/RestaurentAddFolder/RestaurentAddF";
-// import RestaurentAdmin from "./components/RestaurentAdd/RestaurentAdminPortal/RestaurentAdmin/RestaurentAdmin";
 import AddItem from "./components/RestaurentAdd/RestaurentAdminPortal/AddItem/AddItem";
 import Layout1 from "./components/RestaurentAdd/Layoyt1";
 import MenuList from "./components/RestaurentAdd/RestaurentAdminPortal/MenuList/MenuList";
@@ -25,8 +24,9 @@ import StoreContextProvider, { Storecontext } from "./context/Storecontext";
 
 const ProtectedRoute = ({ children }) => {
   const { isLoggedIn } = useContext(Storecontext);
+  console.log(children);
 
-  return isLoggedIn ? children : <Navigate to="/AddRestaurent" />;
+  return isLoggedIn ? children : <Navigate to="/" />;
 };
 
 const router = createBrowserRouter(
