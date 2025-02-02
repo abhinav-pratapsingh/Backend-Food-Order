@@ -28,7 +28,7 @@ const RestaurentAdd = ({ setRestLogin }) => {
     newUrl += "/api/restro/login";
     const res = await axios.post(newUrl, data);
     if (res.data.success) {
-      // login(res.data.success);
+      login(res.data.success);
       setTokens(res.data.token);
       localStorage.setItem("tokens", res.data.token);
       setRestLogin(false);
