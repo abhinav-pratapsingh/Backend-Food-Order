@@ -24,7 +24,6 @@ import StoreContextProvider, { Storecontext } from "./context/Storecontext";
 
 const ProtectedRoute = ({ children }) => {
   const { isLoggedIn } = useContext(Storecontext);
-  console.log(children);
 
   return isLoggedIn ? children : <Navigate to="/" />;
 };

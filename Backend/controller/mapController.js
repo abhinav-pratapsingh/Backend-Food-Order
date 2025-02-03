@@ -26,7 +26,7 @@ const calculateDistance = async (origin, destination) => {
     // Distances from origin to destinations
     const proceededData = data.distances[0]
       .slice(1)
-      .filter((v) => v <= 11000)
+      .filter((v) => v <= 1000000)
       .map((itr, index) => ({
         name: destination[index].name,
         _id: destination[index]._id,

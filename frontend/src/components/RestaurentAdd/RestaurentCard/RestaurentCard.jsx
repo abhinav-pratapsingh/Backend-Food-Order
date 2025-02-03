@@ -2,7 +2,7 @@ import React from "react";
 import { assets } from "../../../assets/assets";
 import "./RestaurentCard.css";
 
-const RestaurantCard = () => {
+const RestaurantCard = ({ img, name }) => {
   return (
     <>
       <div className="restaurentCard-container">

@@ -7,6 +7,7 @@ const AddItem = () => {
   const { url } = useContext(Storecontext);
   const [restroId, setRestroId] = useState(null);
   const [image, setImage] = useState(null);
+  const [response, setResponse] = useState(null);
   const [data, setData] = useState({
     name: "",
     price: "",
@@ -38,15 +39,14 @@ const AddItem = () => {
       return;
     }
 
-
     let newUrl = url;
-    newUrl += "/api/food/add";
+    newUrl += "/api/food/add"; //api/food/list
     console.log(newUrl);
     const login_data = {
       headers: {
-        'token': restroId, // Example authorization header
-      }
-    }
+        token: restroId,
+      },
+    };
     const formData = new FormData();
     formData.append("name", data.name);
     formData.append("price", data.price);
@@ -55,8 +55,8 @@ const AddItem = () => {
     formData.append("image", image);
 
     try {
-      const res = await axios.post(newUrl, formData,login_data);
-
+      const res = await axios.post(newUrl, formData, login_data);
+      setResponse(res);
       if (res.data.success) {
         setData({
           name: "",
@@ -92,6 +92,8 @@ const AddItem = () => {
   //     console.error("error adding item:",error)
   //     alert("Failed to add item. please try again")
   //   }}}}
+
+  // console.log(response);
 
   return (
     <>
