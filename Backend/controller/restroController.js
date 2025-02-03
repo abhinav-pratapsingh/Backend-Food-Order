@@ -10,7 +10,7 @@ const createToken = (id) => {
 
 const restroRegister = async (req, res) => {
   try {
-    let image = `${req.file.filename}`;
+    let image = `${req.imageUrl}`;
     const {
       email,
       password,
@@ -88,9 +88,10 @@ const restroLogin = async (req, res) => {
     const { password, email } = req.body;
     const restro = await restroModel.findOne({ email: email});
     const compare = await bcrypt.compare(password, restro.password);
+    const restro_id = restro._id;
     if (compare) {
       const token = createToken(restro._id);
-      res.json({ success: true, message: "login successful", token });
+      res.json({ success: true, message: "login successful", token,restro_id});
     } else {
       res.json({ success: false, message: "invalid credentials" });
     }

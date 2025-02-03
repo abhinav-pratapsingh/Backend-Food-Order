@@ -17,12 +17,38 @@ const authMiddleware = async (req, res, next) => {
   }
 };
 
+<<<<<<< HEAD
 const authMiddlewareRestro = async (req, res, next) => {
   const { token } = req.headers;
   console.log(token);
   try {
     if (!token) {
       return res.json({ success: false, message: "Please login frist" });
+=======
+const checkRestroStatus = async (req,res,next)=>{
+    console.log(req.body.email)
+    console.log(req.headers)
+    try {
+        const restro = await restroModel.findOne({email:req.body.email});
+        if(!restro){
+            res.json({success:false,message:"user not exists"});
+        }else{
+        if(restro.status == 0 ){
+            res.json({success:false,message:"Restaurent registration pending"});
+        } 
+        else if(restro.status==1){
+            res.json({success:false,message:"Restaurent registration is on Hold"});
+        }
+        else if(restro.status==2){
+            res.json({success:false,message:"Restaurent account is on blocked"});
+        }
+        else if(restro.status==3){
+            next();
+        }}
+    } catch (error) {
+        console.log(error);
+            res.json({success:false,message:"error"});
+>>>>>>> eb0f4a40f040b14a8abc1dca88fae48ab88134c5
     }
 
     const token_decode = jwt.verify(token, process.env.JWT_SECRET);
