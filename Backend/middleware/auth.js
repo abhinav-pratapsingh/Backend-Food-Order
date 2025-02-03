@@ -5,7 +5,7 @@ import userModel from "../models/userModel.js";
 const authMiddleware = async (req, res, next) => {
   const { token } = req.headers;
   if (!token) {
-    return res.json({ success: false, message: "Please login frist" });
+    return res.json({ success: false, message: "Please login first" });
   }
   try {
     const token_decode = jwt.verify(token, process.env.JWT_SECRET);
@@ -17,40 +17,13 @@ const authMiddleware = async (req, res, next) => {
   }
 };
 
-<<<<<<< HEAD
 const authMiddlewareRestro = async (req, res, next) => {
   const { token } = req.headers;
   console.log(token);
   try {
     if (!token) {
-      return res.json({ success: false, message: "Please login frist" });
-=======
-const checkRestroStatus = async (req,res,next)=>{
-    console.log(req.body.email)
-    console.log(req.headers)
-    try {
-        const restro = await restroModel.findOne({email:req.body.email});
-        if(!restro){
-            res.json({success:false,message:"user not exists"});
-        }else{
-        if(restro.status == 0 ){
-            res.json({success:false,message:"Restaurent registration pending"});
-        } 
-        else if(restro.status==1){
-            res.json({success:false,message:"Restaurent registration is on Hold"});
-        }
-        else if(restro.status==2){
-            res.json({success:false,message:"Restaurent account is on blocked"});
-        }
-        else if(restro.status==3){
-            next();
-        }}
-    } catch (error) {
-        console.log(error);
-            res.json({success:false,message:"error"});
->>>>>>> eb0f4a40f040b14a8abc1dca88fae48ab88134c5
+      return res.json({ success: false, message: "Please login first" });
     }
-
     const token_decode = jwt.verify(token, process.env.JWT_SECRET);
     req.restroId = token_decode.id;
     next();
@@ -60,7 +33,36 @@ const checkRestroStatus = async (req,res,next)=>{
   }
 };
 
-const checkUserStaus = async (req, res, next) => {
+const checkRestroStatus = async (req, res, next) => {
+  console.log(req.body.email);
+  try {
+    const restro = await restroModel.findOne({ email: req.body.email });
+    if (!restro) {
+      res.json({ success: false, message: "user not exists" });
+    } else {
+      if (restro.status == 0) {
+        res.json({
+          success: false,
+          message: "Restaurant registration pending",
+        });
+      } else if (restro.status == 1) {
+        res.json({
+          success: false,
+          message: "Restaurant registration is on Hold",
+        });
+      } else if (restro.status == 2) {
+        res.json({ success: false, message: "Restaurant account is blocked" });
+      } else if (restro.status == 3) {
+        next();
+      }
+    }
+  } catch (error) {
+    console.log(error);
+    res.json({ success: false, message: "error" });
+  }
+};
+
+const checkUserStatus = async (req, res, next) => {
   try {
     console.log(req.body.email);
     const user = await userModel.findOne({ email: req.body.email });
@@ -79,41 +81,9 @@ const checkUserStaus = async (req, res, next) => {
   }
 };
 
-const checkRestroStatus = async (req, res, next) => {
-  console.log(req.body.email);
-  try {
-    const restro = await restroModel.findOne({ email: req.body.email });
-    if (!restro) {
-      res.json({ success: false, message: "user not exists" });
-    } else {
-      if (restro.status == 0) {
-        res.json({
-          success: false,
-          message: "Restaurent registration pending",
-        });
-      } else if (restro.status == 1) {
-        res.json({
-          success: false,
-          message: "Restaurent registration is on Hold",
-        });
-      } else if (restro.status == 2) {
-        res.json({
-          success: false,
-          message: "Restaurent account is on blocked",
-        });
-      } else if (restro.status == 3) {
-        next();
-      }
-    }
-  } catch (error) {
-    console.log(error);
-    res.json({ success: false, message: "error" });
-  }
-};
-
 export {
   authMiddleware,
-  checkRestroStatus,
   authMiddlewareRestro,
-  checkUserStaus,
+  checkRestroStatus,
+  checkUserStatus,
 };

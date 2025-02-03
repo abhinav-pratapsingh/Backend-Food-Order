@@ -94,8 +94,6 @@
 
 // export { nearRestro };
 
-
-
 // // osrm
 
 import addressModel from "../models/addressModel.js";
@@ -103,8 +101,8 @@ import restroModel from "../models/restroModel.js";
 import fetch from "node-fetch";
 
 const api_key = process.env.apiKey;
-const orsUrl = "https://api.openrouteservice.org/v2/matrix/driving-car";  // OpenRouteService URL
-const osrmUrl = "http://router.project-osrm.org/table/v1/driving/";        // OSRM URL
+const orsUrl = "https://api.openrouteservice.org/v2/matrix/driving-car"; // OpenRouteService URL
+const osrmUrl = "http://router.project-osrm.org/table/v1/driving/"; // OSRM URL
 
 // Function to calculate distance using OpenRouteService (ORS)
 const calculateDistanceORS = async (origin, destination) => {
@@ -126,13 +124,10 @@ const calculateDistanceORS = async (origin, destination) => {
     const data = await response.json();
     // Distances from origin to destinations
     const proceededData = data.distances[0]
-<<<<<<< HEAD
       .slice(1)
       .filter((v) => v <= 1000000)
-=======
       .slice(1) // Skip the origin distance (first element)
       .filter((v) => v <= 11000) // Filter distances less than or equal to 11 km
->>>>>>> eb0f4a40f040b14a8abc1dca88fae48ab88134c5
       .map((itr, index) => ({
         name: destination[index].name,
         _id: destination[index]._id,
@@ -150,14 +145,19 @@ const calculateDistanceORS = async (origin, destination) => {
 
 // Function to calculate distance using OSRM
 const calculateDistanceOSRM = async (origin, destination) => {
-  const coordinates = [origin, ...destination.map((i) => i.coordinates)].join(";");
-  
+  const coordinates = [origin, ...destination.map((i) => i.coordinates)].join(
+    ";"
+  );
+
   try {
-    const response = await fetch(`${osrmUrl}${coordinates}?annotations=distance&sources=0`, {
-      method: "GET",
-    });
+    const response = await fetch(
+      `${osrmUrl}${coordinates}?annotations=distance&sources=0`,
+      {
+        method: "GET",
+      }
+    );
     const data = await response.json();
-    console.log(data)
+    console.log(data);
     // Check if distance data exists in the response
     if (data.distances && data.distances[0]) {
       const proceededData = data.distances[0]
