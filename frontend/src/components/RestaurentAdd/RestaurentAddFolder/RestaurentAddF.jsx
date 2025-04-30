@@ -205,7 +205,7 @@ const RestaurentAddF = () => {
                   value={data.lati}
                   onChange={onChangeHandler}
                   required
-                  readOnly
+                  // readOnly
                 />
                 <input
                   placeholder="longitude"
@@ -213,7 +213,7 @@ const RestaurentAddF = () => {
                   type="text"
                   value={data.longi}
                   onChange={onChangeHandler}
-                  readOnly
+                  // readOnly
                   required
                 />
                 <p onClick={location}>
