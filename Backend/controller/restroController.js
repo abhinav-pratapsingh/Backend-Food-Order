@@ -1,4 +1,4 @@
-import bcrypt from "bcrypt";
+const bcrypt = require("bcryptjs");
 import restroModel from "../models/restroModel.js";
 import jwt from "jsonwebtoken";
 import otpModel from "../models/otpModel.js";
@@ -24,9 +24,8 @@ const restroRegister = async (req, res) => {
       longi,
       otp,
     } = req.body;
-    
 
-    const v_otp = await otpModel.find({ email }).sort({ 'Date' : -1 });
+    const v_otp = await otpModel.find({ email }).sort({ Date: -1 });
 
     const isVaild = (v_otp) => {
       const current = Date.now();
@@ -86,12 +85,17 @@ const restroRegister = async (req, res) => {
 const restroLogin = async (req, res) => {
   try {
     const { password, email } = req.body;
-    const restro = await restroModel.findOne({ email: email});
+    const restro = await restroModel.findOne({ email: email });
     const compare = await bcrypt.compare(password, restro.password);
     const restro_id = restro._id;
     if (compare) {
       const token = createToken(restro._id);
-      res.json({ success: true, message: "login successful", token,restro_id});
+      res.json({
+        success: true,
+        message: "login successful",
+        token,
+        restro_id,
+      });
     } else {
       res.json({ success: false, message: "invalid credentials" });
     }
@@ -101,22 +105,28 @@ const restroLogin = async (req, res) => {
   }
 };
 
-const districtRestro = async(req,res)=>{
-  if (!req.body.district){
-    return res.json({success:false,message:"No district is provided"});
+const districtRestro = async (req, res) => {
+  if (!req.body.district) {
+    return res.json({ success: false, message: "No district is provided" });
   }
-  try{
-  const district = req.body.district.trim();
-  console.log(district)
-  const data = await restroModel.find({'address.district':district,status:3})
-  console.log(data)
-  if(data.length===0){
-    return res.json({success:true,message:"no restaurent found in given district"});
+  try {
+    const district = req.body.district.trim();
+    console.log(district);
+    const data = await restroModel.find({
+      "address.district": district,
+      status: 3,
+    });
+    console.log(data);
+    if (data.length === 0) {
+      return res.json({
+        success: true,
+        message: "no restaurent found in given district",
+      });
+    }
+    res.json({ success: true, message: "found..", data });
+  } catch (e) {
+    res.json({ success: false, message: "cannot find restaurents" });
   }
-  res.json({success:true,message:"found..",data});
-  }catch(e){
-    res.json({success:false,message:"cannot find restaurents"});
-  }
-}
+};
 
-export { restroRegister, restroLogin,districtRestro };
+export { restroRegister, restroLogin, districtRestro };
