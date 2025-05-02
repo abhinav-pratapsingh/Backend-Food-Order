@@ -1,22 +1,22 @@
-.explore-menu{
+#explore-menu{
     display: flex;
     flex-direction: column;
     gap: 20px;
-    margin: 0 20px;
 }
 
-.explore-menu h1{
+#explore-menu h1{
+    text-align: center;
     color: #262626;
     font-weight: 500;
 }
 
 .explore-menu-text {
-    max-width: 60%;
+    text-align: center;
+    max-width: 100%;
     color: #808080;
 }
 
-.explore-menu-list{
-    margin: 0 60px;
+.explore-menu-list{ 
     display: grid;
     grid-template-columns: repeat(8,1fr);
     gap: 30px;
@@ -29,33 +29,17 @@
     transition: .5s all;
 }
 
-/* .explore-menu-list a img:hover{
-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.787);
-border-radius: 50%;
-border-bottom: 4px solid tomato;
-    padding: 2px;
-    border-top: 4px solid tomato;
-    transition: .5 all ;
-} */
-
 .explore-menu-list::-webkit-scrollbar{
     display: none;
 }
 
-.explore-meni-list-item img{
-    width: 5.5vw; 
+.explore-menu-list-item img{
+    width: 10vw; 
     min-width: 80px;
     cursor: pointer;
     border-radius: 50%;
-    transition: .5s;
+    transition: .5s all ;
 }
-
-/* .explore-meni-list-item:hover img .active{
-    border-bottom: 4px solid tomato;
-    padding: 2px;
-    border-top: 4px solid tomato;
-    transition: .5 all ;
-} */
 
 .explore-menu-list-item p{
     margin-top: 10px;
@@ -64,7 +48,7 @@ border-bottom: 4px solid tomato;
     cursor: pointer;
 }
 
-.explore-menu hr{
+#explore-menu hr{
     margin: 10px 0;
     height: 2px;
     background-color: #e2e2e2;
@@ -74,14 +58,38 @@ border-bottom: 4px solid tomato;
 .explore-menu-list-item .active{
     border-bottom: 4px solid tomato;
     padding: 5px;
-    /* border-top: 4px solid tomato; */
-    transition: .5 all ;
 }
 
+
 @media (max-width:1050px) {
+    #explore-menu h1{
+        font-size:20px;
+        padding: 10px 30px;
+    }
     .explore-menu-text{
         max-width: 100%;
         font-size: 14px;
+    }
+}
+
+@media (max-width:700px) {
+
+    #explore-menu h1{
+        font-size:15px;
+        padding: 10px 60px;
+    }
+    .explore-menu-text{
+        max-width: 100%;
+        font-size: 14px;
+        margin: 0 30px;
+    }
+
+}
+
+@media (max-width:550px) {
+    #explore-menu h1{
+        font-size:9px;
+        padding: 10px 30px;
     }
 
 }

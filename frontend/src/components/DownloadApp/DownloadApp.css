@@ -1,10 +1,23 @@
 .download-app{
-    text-align: center;
-    padding: 7%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
 }
 
 .download-app-img{
+    display: flex;
+    justify-content: center;
+    align-items: center;
     padding: 30px 0;
+}
+
+.download-app h1{
+    text-align: center !important;
+    color: black;
+    padding: 0px 30px;
+    background-color: rgba(255, 99, 71, 0.173);
+    margin: 10px;
 }
 
 @media (max-width:750px) {
@@ -13,7 +26,25 @@
     }
 
     .download-app-img{
-       display: flex;
-       justify-content: center;
+        width: 100%;
+    }
+}
+@media (max-width:470px) {
+    .download-app h1{
+        padding: 0px 30px;
+        font-size: 20px;
+    }
+}
+@media (max-width:395px) {
+    .download-app h1{
+        padding: 0px 17px;
+        font-size: 16px;
+    }
+    .download-app-img{
+        width: 50%;
+    }
+
+    .download-app-img img{
+        width: 100%;
     }
 }

@@ -12,8 +12,11 @@
 }
 
 .food-item-info{
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
     padding: 15px;
-    /* height: 13vh; */
 }
 
 .food-item-name-rating{
@@ -69,63 +72,36 @@
     background-color: #fff;
 }
 
-@media (max-width:1050) {
-    .food-item-name-rating p{
-        font-size: 17px;
+@media (max-width:1050px) {
+    .food-item{
+        width: 100%;
+        height: 60vh;
     }
 
-    .food-item-des{
-        font-size: 10px;
-    }
-
-    .food-item-name-rating img{
-        width: 60px;
-    }
-
-    .food-item-price{
-        color: tomato;
-        font-size: 20px;
-        font-weight: 500;
-        margin: 8px 0;
+    .food-item-image{
+        width: 100%;
+        border-radius: 15px 15px 0 0;
+        height: 30vh;
     }
 }
 
-@media (max-width:750px) {
-    .food-item-name-rating p{
-        font-size: 16px;
-    }
-
-    .food-item-des{
-        font-size: 9px;
-    }
-
-    .food-item-name-rating img{
-        width: 50px;
-    }
-
-    .food-item-price{
-        font-size: 18px;
-        font-weight: 500;
-        margin: 8px 0;
+@media (max-width:700px) {
+    .food-item{
+        width: 95%;
+        height: 55vh;
     }
 }
 
-@media (max-width:512px) {
-    .food-item-name-rating p{
-        font-size: 16.5px;
-    }
-
+@media (max-width:558px) {
     .food-item-des{
         font-size: 10px;
     }
+}
 
-    .food-item-price{
-        font-size: 17.5px;
-        font-weight: 400;
-        margin: 8px 0;
+@media (max-width:450px) {
+    .food-item{
+        width: 100%;
+        height: 60vh;
     }
-
-    .food-item-name-rating img{
-        width: 45px;
-    }
+    
 }

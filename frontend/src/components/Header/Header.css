@@ -44,6 +44,8 @@
 @media (max-width:1050px) {
    .header{
     height: 38vw;
+    margin-left: 2%;
+    margin-right: 2%;
    }
 
    .header-contents{
@@ -64,4 +66,13 @@
    .header-contents button{
     padding: 2vw 4vw;
    }
+}
+
+@media (max-width:380px){
+    .header-contents h2{
+        font-weight: 400;
+        color: #fff;
+        font-size: max(5vw,20px);
+    
+    }
 }

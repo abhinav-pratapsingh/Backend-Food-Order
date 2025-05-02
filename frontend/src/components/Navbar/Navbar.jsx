@@ -77,56 +77,60 @@ const Navbar = ({ setShowLogin, setRestLogin }) => {
             alt="logo"
             className="logo"
           />
+          <h3 className="district">&#128205;{district}</h3>
         </Link>
-        <h3>&#128205;{district}</h3>
+
         <ul className="navbar-menu">
-          {!forLoginToken ? (
-            !tokens ? (
-              <button onClick={() => setRestLogin(true)}>
-                Restaurent Portal
-              </button>
+          <div className="nabbar-right">
+            {!forLoginToken ? (
+              !tokens ? (
+                <button onClick={() => setRestLogin(true)}>
+                  Restaurent Portal
+                </button>
+              ) : (
+                /* <p>You are enter in portal</p> */
+                <button onClick={logout1}>Log Out</button>
+              )
             ) : (
-              /* <p>You are enter in portal</p> */
-              <button onClick={logout1}>Log Out</button>
-            )
-          ) : (
-            console.log("")
-          )}
-        </ul>
-        <div className="navbar-right">
-          <img src={assets.search_icon} />
-          <div className="navbar-search-icon">
-            <Link to="/cart">
-              <img src={assets.basket_icon} />
-            </Link>
-            <div className={getTotalCartAmount() === 0 ? "" : "dot"}></div>
+              console.log("")
+            )}
           </div>
 
-          {!tokens ? (
-            !forLoginToken ? (
-              <button onClick={() => setShowLogin(true)}>
-                Log in / sign in
-              </button>
+          <div className="navbar-right">
+            <img src={assets.search_icon} />
+            <div className="navbar-search-icon">
+              <Link to="/cart">
+                <img src={assets.basket_icon} />
+              </Link>
+              <div className={getTotalCartAmount() === 0 ? "" : "dot"}></div>
+            </div>
+
+            {!tokens ? (
+              !forLoginToken ? (
+                <button onClick={() => setShowLogin(true)}>
+                  Log in / sign in
+                </button>
+              ) : (
+                <div className="navbar-profile">
+                  <img src={assets.profile_icon} />
+                  <ul className="nav-profile-dropdown">
+                    <li>
+                      <img src={assets.bag_icon} alt="" />
+                      <p>Order</p>
+                    </li>
+                    <hr />
+                    <li>
+                      <img onClick={logout} src={assets.logout_icon} alt="" />
+                      <p>Log Out</p>
+                    </li>
+                  </ul>
+                </div>
+              )
             ) : (
-              <div className="navbar-profile">
-                <img src={assets.profile_icon} />
-                <ul className="nav-profile-dropdown">
-                  <li>
-                    <img src={assets.bag_icon} alt="" />
-                    <p>Order</p>
-                  </li>
-                  <hr />
-                  <li>
-                    <img onClick={logout} src={assets.logout_icon} alt="" />
-                    <p>Log Out</p>
-                  </li>
-                </ul>
-              </div>
-            )
-          ) : (
-            console.log("")
-          )}
-        </div>
+              console.log("")
+            )}
+          </div>
+        </ul>
       </div>
     </>
   );
