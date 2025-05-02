@@ -57,7 +57,6 @@ const LoginPopUp = ({ setShowLogin }) => {
     const res = await axios.post(newUrl, data);
     if (res.data.success) {
       setForLoginToken(res.data.token);
-      // localStorage.setItem("token", res.data.token);
       setShowLogin(false);
     } else {
       alert(res.data.message);
@@ -74,6 +73,7 @@ const LoginPopUp = ({ setShowLogin }) => {
           // console.log(latitude, longitude);
           setLatitude(latitude);
           setLongitude(longitude);
+          distr(latitude, longitude);
         },
         (error) => {
           console.error("Error getting location:", error);
@@ -83,7 +83,7 @@ const LoginPopUp = ({ setShowLogin }) => {
       console.error("Geolocation is not supported by this browser.");
     }
 
-    const dist = async (latitude, longitude) => {
+    const distr = async (latitude, longitude) => {
       let apiEndPoint = "https://api.opencagedata.com/geocode/v1/json";
       let apikey = "416911d3a90940a6ba7ba4f7aaaa402e";
 
