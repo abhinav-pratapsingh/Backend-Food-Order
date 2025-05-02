@@ -12,6 +12,7 @@ const LoginPopUp = ({ setShowLogin }) => {
   const [district, setDistrict] = useState();
   const [lati, setLatitude] = useState();
   const [longi, setLongitude] = useState();
+
   const [data, setData] = useState({
     name: "",
     email: "",
@@ -69,7 +70,8 @@ const LoginPopUp = ({ setShowLogin }) => {
         (position) => {
           const latitude = position.coords.latitude;
           const longitude = position.coords.longitude;
-          dist(latitude, longitude);
+          // dist(latitude, longitude);
+          // console.log(latitude, longitude);
           setLatitude(latitude);
           setLongitude(longitude);
         },
@@ -110,11 +112,6 @@ const LoginPopUp = ({ setShowLogin }) => {
       longi: longi,
     };
 
-    // const formData = new FormData();
-    // formData.append("district", district);
-    // formData.append("lati", lati);
-    // formData.append("longi", longi);
-
     console.log("Form Data Sent:", {
       district: district,
       lati: lati,
@@ -122,8 +119,6 @@ const LoginPopUp = ({ setShowLogin }) => {
     });
 
     const res = await axios.post(newUrl, dataToSend);
-    console.log(res);
-    // setRestDisplay(res);
     if (res.data.success) {
       setDistrict("");
       setLatitude("");
@@ -133,8 +128,6 @@ const LoginPopUp = ({ setShowLogin }) => {
       alert(res.data.message);
     }
   };
-
-  // console.log(restDisplay);
 
   return (
     <>
