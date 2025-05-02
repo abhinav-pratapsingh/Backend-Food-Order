@@ -1,4 +1,4 @@
-const bcrypt = require("bcryptjs");
+import bcrypt from "bcrypt";
 import restroModel from "../models/restroModel.js";
 import jwt from "jsonwebtoken";
 import otpModel from "../models/otpModel.js";
