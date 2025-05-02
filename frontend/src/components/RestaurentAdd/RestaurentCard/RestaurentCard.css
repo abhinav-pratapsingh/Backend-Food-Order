@@ -15,15 +15,6 @@
     border-radius: 25px;
 }
 
-.rest-img h2{
-    position: absolute;
-    margin-top: -3%;
-    padding-left: 10px;
-    font-size: 26px;
-    text-align: center;
-    color: black;
-}
-
 .restaurentCard-container .card-details .rest-text{
     width: 100%;
     padding: 2px;
