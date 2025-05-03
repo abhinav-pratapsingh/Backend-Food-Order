@@ -49,7 +49,9 @@ const router = createBrowserRouter(
         <Route path="Your_Menu" element=<MenuList /> />
         <Route path="Check-Order" element=<OrderList /> />
       </Route>
-      <Route path="/menu/:id" element={<MenuPage />} />
+      <Route path="menu" element={<MenuPage />}>
+        <Route path="/menu/:id" element={<MenuPage />} />
+      </Route>
     </Route>
   )
 );

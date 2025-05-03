@@ -124,7 +124,7 @@ const StoreContextProvider = (props) => {
       alert(res.data.message);
     }
     setRestroRes(res.data.data);
-    console.log(res.data);
+    // console.log(res.data);
   };
   useEffect(() => {
     location();

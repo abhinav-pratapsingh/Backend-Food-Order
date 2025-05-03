@@ -1,0 +1,40 @@
+.Restro-Menu-List{
+    margin-top: 80px;
+    margin-left: 5%;
+    margin-right: 5%;
+    margin-bottom: 80px;
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    grid-template-columns: repeat(4,1fr);
+    gap: 10px;
+}
+
+@media (max-width:1050px){
+    .Restro-Menu-List{
+        grid-template-columns: repeat(4,1fr);
+        gap: 10px;
+    }
+}
+@media (max-width:960px){
+    .Restro-Menu-List{
+        grid-template-columns: repeat(3,1fr);
+        gap: 10px;
+    }
+}
+@media (max-width:720px){
+    .Restro-Menu-List{
+        grid-template-columns: repeat(2,1fr);
+        gap: 10px;
+        margin-left: 1%;
+        margin-right: 1%;
+    }
+}
+@media (max-width:600px){
+    .Restro-Menu-List{
+        grid-template-columns: repeat(1,1fr);
+        gap: 10px;
+        margin-left: 1%;
+        margin-right: 1%;
+    }
+}
