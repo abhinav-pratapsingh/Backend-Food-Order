@@ -37,7 +37,7 @@ const LoginPopUp = ({ setShowLogin }) => {
 
   const onSend = async (e) => {
     e.preventDefault();
-    const newUrl = url; /*"http://localhost:3000/api/user/send"*/
+    let newUrl = url; /*"http://localhost:3000/api/user/send"*/
     newUrl += "/api/user/send";
     const res = await axios.post(newUrl, data);
     console.log(res);
