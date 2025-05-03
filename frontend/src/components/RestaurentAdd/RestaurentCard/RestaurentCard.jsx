@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import "./RestaurentCard.css";
 import { Storecontext } from "../../../context/Storecontext";
 
@@ -9,6 +10,7 @@ import { Storecontext } from "../../../context/Storecontext";
 
 const RestaurantCard = ({ img, name }) => {
   const { restroRes } = useContext(Storecontext);
+  const navigate = useNavigate();
   return (
     <>
       <div className="restaurentCard-container">
@@ -25,7 +27,13 @@ const RestaurantCard = ({ img, name }) => {
                     <span className="location">
                       {items.address.district} <br /> {items.address.locality}
                     </span>
-                    <button>View Menu</button>
+                    <button
+                      onClick={() => {
+                        navigate(`/menu/${items._id}`);
+                      }}
+                    >
+                      View Menu
+                    </button>
                   </div>
                 </div>
               </div>

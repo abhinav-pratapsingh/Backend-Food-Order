@@ -21,6 +21,7 @@ import OrderList from "./components/RestaurentAdd/RestaurentAdminPortal/OrderLis
 
 import RestaurentAdd from "./components/RestaurentAdd/RestaurentAdd";
 import StoreContextProvider, { Storecontext } from "./context/Storecontext";
+import MenuPage from "./components/MenuPage/MenuPage";
 
 const ProtectedRoute = ({ children }) => {
   const { isLoggedIn } = useContext(Storecontext);
@@ -48,6 +49,7 @@ const router = createBrowserRouter(
         <Route path="Your_Menu" element=<MenuList /> />
         <Route path="Check-Order" element=<OrderList /> />
       </Route>
+      <Route path="/menu/:id" element={<MenuPage />} />
     </Route>
   )
 );

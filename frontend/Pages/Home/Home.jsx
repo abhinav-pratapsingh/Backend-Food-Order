@@ -8,13 +8,17 @@ import RestaurentCard from "../../src/components/RestaurentAdd/RestaurentCard/Re
 
 const Home = () => {
   const [category, setCategory] = useState("All");
+  const [selectedRestroId, setSelectedRestroId] = useState(null);
   return (
     <>
       <div>
         <Header />
-        <RestaurentCard />
+        <RestaurentCard setSelectedRestroId={setSelectedRestroId} />
         <Exploremenu category={category} setCategory={setCategory} />
-        <FoodDisplay category={category} />
+        <FoodDisplay
+          category={category}
+          setSelectedRestroId={setSelectedRestroId}
+        />
         <DownloadApp />
       </div>
     </>

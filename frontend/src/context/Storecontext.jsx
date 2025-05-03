@@ -11,6 +11,7 @@ const StoreContextProvider = (props) => {
   const [longi, setLongitude] = useState();
   const [cartItems, setCartItems] = useState({});
   const [restroRes, setRestroRes] = useState([]);
+  const [id, setId] = useState();
   const url = "http://localhost:3000";
   const [forLoginToken, setForLoginToken] = useState("");
 
@@ -123,10 +124,8 @@ const StoreContextProvider = (props) => {
       alert(res.data.message);
     }
     setRestroRes(res.data.data);
-
-    console.log(res.data.data[0]._id);
+    console.log(res.data);
   };
-
   useEffect(() => {
     location();
   }, []);
@@ -137,13 +136,6 @@ const StoreContextProvider = (props) => {
       userLocation();
     }
   }, [district, lati, longi]);
-
-  const restroMenuList = async (e = null) => {
-    if (e) e.preventDefault();
-
-    let newUrl = url;
-    // newUrl+=
-  };
 
   const contextValue = {
     food_list,
