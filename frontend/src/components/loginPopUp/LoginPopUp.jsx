@@ -37,7 +37,8 @@ const LoginPopUp = ({ setShowLogin }) => {
 
   const onSend = async (e) => {
     e.preventDefault();
-    const newUrl = "http://localhost:3000/api/user/send";
+    const newUrl = url; /*"http://localhost:3000/api/user/send"*/
+    newUrl += "/api/user/send";
     const res = await axios.post(newUrl, data);
     console.log(res);
     if (!res.data.success) {
@@ -158,7 +159,7 @@ const LoginPopUp = ({ setShowLogin }) => {
             )}
             <div className="email-otp">
               <input
-                onClick={location}
+                // onClick={location}
                 type="email"
                 name="email"
                 onChange={onChangeHandler}
@@ -187,7 +188,7 @@ const LoginPopUp = ({ setShowLogin }) => {
               />
             )}
             <input
-              onClick={userLocation}
+              // onClick={userLocation}
               type="password"
               name="password"
               onChange={onChangeHandler}

@@ -9,8 +9,6 @@ import { Storecontext } from "../../../context/Storecontext";
 
 const RestaurantCard = ({ img, name }) => {
   const { restroRes } = useContext(Storecontext);
-
-  console.log(restroRes);
   return (
     <>
       <div className="restaurentCard-container">

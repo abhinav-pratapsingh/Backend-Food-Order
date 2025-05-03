@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect } from "react";
 import { food_list } from "../assets/assets";
 import axios from "axios";
 
@@ -96,10 +96,11 @@ const StoreContextProvider = (props) => {
     };
   };
 
-  const userLocation = async (e) => {
-    e.preventDefault();
+  const userLocation = async (e = null) => {
+    if (e) e.preventDefault();
 
-    let newUrl = "http://localhost:3000/api/restro/near";
+    let newUrl = url;
+    newUrl += "/api/restro/near";
 
     const dataToSend = {
       district: district,
@@ -118,14 +119,30 @@ const StoreContextProvider = (props) => {
       setDistrict("");
       setLatitude("");
       setLongitude("");
-      alert("Done");
     } else {
       alert(res.data.message);
     }
     setRestroRes(res.data.data);
-    console.log(res);
 
-    // setResponse(response);
+    console.log(res.data.data[0]._id);
+  };
+
+  useEffect(() => {
+    location();
+  }, []);
+
+  // Automatically execute userLocation when dependencies update
+  useEffect(() => {
+    if (district && lati && longi) {
+      userLocation();
+    }
+  }, [district, lati, longi]);
+
+  const restroMenuList = async (e = null) => {
+    if (e) e.preventDefault();
+
+    let newUrl = url;
+    // newUrl+=
   };
 
   const contextValue = {
