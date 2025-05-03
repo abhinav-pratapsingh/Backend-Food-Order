@@ -25,6 +25,16 @@ const addfood = async (req,res)=>{
     }
 };
 
+const menu = async(req,res)=>{
+    try{
+        const data = await foodModel.find({restroId:req.body.restroId});
+        res.json({success:true,data:data});
+    }
+    catch(e){
+        res.json({success:false,message:`error  ${e}`});
+    }
+}
+
  const listFood = async(req,res)=>{
     try {
         const food = await foodModel.find({restroId:req.restroId});
@@ -47,4 +57,4 @@ const addfood = async (req,res)=>{
     }
  }
 
-export {addfood,listFood,removeFood};
+export {addfood,listFood,removeFood,menu};

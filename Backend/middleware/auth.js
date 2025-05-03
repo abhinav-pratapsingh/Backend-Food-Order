@@ -56,7 +56,7 @@ const checkRestroStatus = async (req, res, next) => {
         next();
       }
     }
-  } catch (error) {
+  } catch (error){
     console.log(error);
     res.json({ success: false, message: "error" });
   }

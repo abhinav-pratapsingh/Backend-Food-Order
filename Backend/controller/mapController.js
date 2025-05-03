@@ -127,7 +127,7 @@ const calculateDistanceORS = async (origin, destination) => {
       .slice(1)
       .filter((v) => v <= 1000000)
       .slice(1) // Skip the origin distance (first element)
-      .filter((v) => v <= 11000) // Filter distances less than or equal to 11 km
+      .filter((v) => v <= 41000) // Filter distances less than or equal to 11 km
       .map((itr, index) => ({
         name: destination[index].name,
         _id: destination[index]._id,
@@ -162,7 +162,7 @@ const calculateDistanceOSRM = async (origin, destination) => {
     if (data.distances && data.distances[0]) {
       const proceededData = data.distances[0]
         .slice(1) // Skip the origin distance (first element)
-        .filter((v) => v <= 11000) // Filter distances less than or equal to 11 km
+        .filter((v) => v <= 41000) // Filter distances less than or equal to 11 km
         .map((itr, index) => ({
           name: destination[index].name,
           _id: destination[index]._id,
