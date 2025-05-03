@@ -1,14 +1,16 @@
-import React, { useContext, useEffect } from "react";
-import { assets } from "../../../assets/assets";
+import React, { useContext } from "react";
 import "./RestaurentCard.css";
 import { Storecontext } from "../../../context/Storecontext";
+
+//Locality
+// city
+//name
+//image
 
 const RestaurantCard = ({ img, name }) => {
   const { restroRes } = useContext(Storecontext);
 
   console.log(restroRes);
-
-  console.log();
   return (
     <>
       <div className="restaurentCard-container">
