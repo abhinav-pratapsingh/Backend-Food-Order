@@ -11,25 +11,42 @@ const StoreContextProvider = (props) => {
   const [longi, setLongitude] = useState();
   const [cartItems, setCartItems] = useState({});
   const [restroRes, setRestroRes] = useState([]);
+  // const [tokens, setTokens] = useState(localStorage.getItem("tokens") || "");
   const [id, setId] = useState();
   const url = "http://localhost:3000";
-  const [forLoginToken, setForLoginToken] = useState("");
+  const [forLoginToken, setForLoginToken] = useState(" ");
 
-  const addToCart = (itemId) => {
-    // setCartItems({ ...prev, [itemId]: 1 });
-    if (!cartItems[itemId]) {
-      setCartItems((prev) => ({ ...prev, [itemId]: 1 }));
-    } else {
-      setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] + 1 }));
+  const addToCart = async (itemId) => {
+    setCartItems((prev) => ({
+      ...prev,
+      [itemId]: (prev[itemId] || 0) + 1, // ✅ Increment only the clicked item
+    }));
+    const tokens = localStorage.getItem("token");
+
+    if (tokens) {
+      await axios.post(
+        url + "/api/cart/add",
+        { itemId: itemId },
+        { headers: { token: tokens } }
+      );
     }
   };
 
-  const removeFromCart = (itemId) => {
+  const removeFromCart = async (itemId) => {
     setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] - 1 }));
+    const tokens = localStorage.getItem("token");
+
+    if (tokens) {
+      await axios.post(
+        url + "/api/cart/remove",
+        { itemId: itemId },
+        { headers: { token: tokens } }
+      );
+    }
   };
   //End add to cart
 
-  const getTotalCartAmount = () => {
+  const getTotalCartAmount = async () => {
     let totalAmount = 0;
     for (const item in cartItems) {
       if (cartItems[item] > 0) {
@@ -65,8 +82,6 @@ const StoreContextProvider = (props) => {
         (position) => {
           const latitude = position.coords.latitude;
           const longitude = position.coords.longitude;
-          // dist(latitude, longitude);
-          // console.log(latitude, longitude);
           setLatitude(latitude);
           setLongitude(longitude);
           distr(latitude, longitude);
@@ -109,28 +124,20 @@ const StoreContextProvider = (props) => {
       longi: longi,
     };
 
-    console.log("Form Data Sent:", {
-      district: district,
-      lati: lati,
-      longi: longi,
-    });
-
     const res = await axios.post(newUrl, dataToSend);
     if (res.data.success) {
       setDistrict("");
       setLatitude("");
       setLongitude("");
     } else {
-      alert(res.data.message);
+      // alert(res.data.message);
     }
     setRestroRes(res.data.data);
-    // console.log(res.data);
   };
   useEffect(() => {
     location();
   }, []);
 
-  // Automatically execute userLocation when dependencies update
   useEffect(() => {
     if (district && lati && longi) {
       userLocation();
@@ -151,7 +158,6 @@ const StoreContextProvider = (props) => {
     userLocation,
     restroRes,
 
-    // Authentication-related values
     isLoggedIn,
     tokens,
     setTokens,

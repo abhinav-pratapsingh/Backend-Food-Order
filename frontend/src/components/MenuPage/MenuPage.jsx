@@ -36,15 +36,17 @@ const MenuPage = () => {
         {menu.map((item, index) => {
           return (
             <>
-              <FoodItem
-                key={index}
-                id={item.id}
-                name={item.name}
-                img={item.image}
-                price={item.price}
-                des={item.description}
-                category={item.category}
-              />
+              <div>
+                <FoodItem
+                  key={index}
+                  id={item._id}
+                  name={item.name}
+                  img={item.image}
+                  price={item.price}
+                  des={item.description}
+                  category={item.category}
+                />
+              </div>
             </>
           );
         })}

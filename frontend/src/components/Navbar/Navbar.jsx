@@ -18,11 +18,16 @@ const Navbar = ({ setShowLogin, setRestLogin }) => {
     forLoginToken,
     setForLoginToken,
     tokens,
-    setTokens,
     logout1,
   } = useContext(Storecontext);
+  const [token, setToken] = useState();
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    setToken(token);
+  }, []);
 
   const logout = () => {
     localStorage.removeItem("token");
@@ -82,17 +87,16 @@ const Navbar = ({ setShowLogin, setRestLogin }) => {
 
         <ul className="navbar-menu">
           <div className="nabbar-right">
-            {!forLoginToken ? (
+            {!token ? (
               !tokens ? (
                 <button onClick={() => setRestLogin(true)}>
                   Restaurent Portal
                 </button>
               ) : (
-                /* <p>You are enter in portal</p> */
                 <button onClick={logout1}>Log Out</button>
               )
             ) : (
-              console.log("")
+              <></>
             )}
           </div>
 
@@ -102,11 +106,12 @@ const Navbar = ({ setShowLogin, setRestLogin }) => {
               <Link to="/cart">
                 <img src={assets.basket_icon} />
               </Link>
-              <div className={getTotalCartAmount() === 0 ? "" : "dot"}></div>
+              <div /*className={getTotalCartAmount() === 0 ? "" : "dot"}*/
+              ></div>
             </div>
 
             {!tokens ? (
-              !forLoginToken ? (
+              !token ? (
                 <button onClick={() => setShowLogin(true)}>
                   Log in / sign in
                 </button>
@@ -127,7 +132,7 @@ const Navbar = ({ setShowLogin, setRestLogin }) => {
                 </div>
               )
             ) : (
-              console.log("")
+              <></>
             )}
           </div>
         </ul>

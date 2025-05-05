@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from "react";
 import "./Cart.css";
 import { Storecontext } from "../../src/context/Storecontext";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Cart = () => {
   const {
@@ -10,7 +11,20 @@ const Cart = () => {
     setCartItems,
     removeFromCart,
     getTotalCartAmount,
+    url,
   } = useContext(Storecontext);
+
+  useEffect(() => {
+    const cart = async () => {
+      const token = localStorage.getItem("token");
+      console.log(token);
+      const res = await axios.post(url + "/api/cart/get", null, {
+        headers: { token: token },
+      });
+      console.log(res);
+    };
+    cart();
+  });
 
   const navigate = useNavigate();
   return (
@@ -63,17 +77,17 @@ const Cart = () => {
             <div>
               <div className="cart-total-details">
                 <p>Subtotal</p>
-                <p>{getTotalCartAmount()}</p>
+                {/* <p>{getTotalCartAmount()}</p> */}
               </div>
               <div className="cart-total-details">
                 <p>Delivery Fee</p>
-                <p>{getTotalCartAmount() === 0 ? 0 : 2}</p>
+                {/* <p>{getTotalCartAmount() === 0 ? 0 : 2}</p> */}
               </div>
               <hr />
               <div className="cart-total-details">
                 <b>Total</b>
                 <b>
-                  {getTotalCartAmount() === 0 ? 0 : getTotalCartAmount() + 2}
+                  {/* {getTotalCartAmount() === 0 ? 0 : getTotalCartAmount() + 2} */}
                 </b>
               </div>
             </div>

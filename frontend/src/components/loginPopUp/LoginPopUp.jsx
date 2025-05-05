@@ -6,13 +6,9 @@ import axios from "axios";
 import OTPButton from "./otpButton/OtpBitton";
 
 const LoginPopUp = ({ setShowLogin }) => {
-  const { url, setForLoginToken, location, userLocation } =
-    useContext(Storecontext);
+  const { url, setForLoginToken, tokens } = useContext(Storecontext);
   const [currState, setCurrState] = useState("Sign Up");
-  // const [restDisplay, setRestDisplay] = useState();
-  const [district, setDistrict] = useState();
-  const [lati, setLatitude] = useState();
-  const [longi, setLongitude] = useState();
+  const [forToken, setForToken] = useState();
 
   const [data, setData] = useState({
     name: "",
@@ -37,10 +33,9 @@ const LoginPopUp = ({ setShowLogin }) => {
 
   const onSend = async (e) => {
     e.preventDefault();
-    let newUrl = url; /*"http://localhost:3000/api/user/send"*/
+    let newUrl = url;
     newUrl += "/api/user/send";
     const res = await axios.post(newUrl, data);
-    console.log(res);
     if (!res.data.success) {
       alert("enter email first");
     } else {
@@ -57,6 +52,9 @@ const LoginPopUp = ({ setShowLogin }) => {
       newUrl += "/api/user/register";
     }
     const res = await axios.post(newUrl, data);
+
+    localStorage.setItem("token", res.data.token);
+
     if (res.data.success) {
       setForLoginToken(res.data.token);
       setShowLogin(false);
@@ -64,73 +62,6 @@ const LoginPopUp = ({ setShowLogin }) => {
       alert(res.data.message);
     }
   };
-
-  // const location = () => {
-  //   if (navigator.geolocation) {
-  //     navigator.geolocation.getCurrentPosition(
-  //       (position) => {
-  //         const latitude = position.coords.latitude;
-  //         const longitude = position.coords.longitude;
-  //         // dist(latitude, longitude);
-  //         // console.log(latitude, longitude);
-  //         setLatitude(latitude);
-  //         setLongitude(longitude);
-  //         distr(latitude, longitude);
-  //       },
-  //       (error) => {
-  //         console.error("Error getting location:", error);
-  //       }
-  //     );
-  //   } else {
-  //     console.error("Geolocation is not supported by this browser.");
-  //   }
-
-  //   const distr = async (latitude, longitude) => {
-  //     let apiEndPoint = "https://api.opencagedata.com/geocode/v1/json";
-  //     let apikey = "416911d3a90940a6ba7ba4f7aaaa402e";
-
-  //     const query = `${latitude},${longitude}`;
-  //     const apiUrl = `${apiEndPoint}?key=${apikey}&q=${query}&pretty=1`;
-
-  //     try {
-  //       const res = await axios(apiUrl);
-  //       const data = res.data;
-  //       const dist = data.results[0].components.state_district;
-  //       setDistrict(dist);
-  //     } catch (error) {
-  //       console.error("Error fetching data:", error);
-  //     }
-  //   };
-  // };
-
-  // const userLocation = async (e) => {
-  //   e.preventDefault();
-
-  //   let newUrl = "http://localhost:3000/api/restro/near";
-
-  //   const dataToSend = {
-  //     district: district,
-  //     lati: lati,
-  //     longi: longi,
-  //   };
-
-  //   console.log("Form Data Sent:", {
-  //     district: district,
-  //     lati: lati,
-  //     longi: longi,
-  //   });
-
-  //   const res = await axios.post(newUrl, dataToSend);
-  //   if (res.data.success) {
-  //     setDistrict("");
-  //     setLatitude("");
-  //     setLongitude("");
-  //     alert("Done");
-  //   } else {
-  //     alert(res.data.message);
-  //   }
-  //   console.log(res);
-  // };
 
   return (
     <>
