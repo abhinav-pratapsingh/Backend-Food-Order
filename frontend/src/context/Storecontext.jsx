@@ -11,10 +11,10 @@ const StoreContextProvider = (props) => {
   const [longi, setLongitude] = useState();
   const [cartItems, setCartItems] = useState({});
   const [restroRes, setRestroRes] = useState([]);
-  // const [tokens, setTokens] = useState(localStorage.getItem("tokens") || "");
   const [id, setId] = useState();
   const url = "http://localhost:3000";
   const [forLoginToken, setForLoginToken] = useState(" ");
+  const [token, setToken] = useState(localStorage.getItem("token") || "");
 
   const addToCart = async (itemId) => {
     setCartItems((prev) => ({
@@ -157,6 +157,8 @@ const StoreContextProvider = (props) => {
     location,
     userLocation,
     restroRes,
+    token,
+    setToken,
 
     isLoggedIn,
     tokens,

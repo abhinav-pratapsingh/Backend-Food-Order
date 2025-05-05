@@ -6,7 +6,7 @@ import axios from "axios";
 import OTPButton from "./otpButton/OtpBitton";
 
 const LoginPopUp = ({ setShowLogin }) => {
-  const { url, setForLoginToken, tokens } = useContext(Storecontext);
+  const { url, setForLoginToken, tokens, setToken } = useContext(Storecontext);
   const [currState, setCurrState] = useState("Sign Up");
   const [forToken, setForToken] = useState();
 
@@ -54,6 +54,7 @@ const LoginPopUp = ({ setShowLogin }) => {
     const res = await axios.post(newUrl, data);
 
     localStorage.setItem("token", res.data.token);
+    setToken(res.data.token);
 
     if (res.data.success) {
       setForLoginToken(res.data.token);

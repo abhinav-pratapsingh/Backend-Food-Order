@@ -17,7 +17,7 @@ const MenuPage = () => {
 
     const response = await axios.post(newUrl, { restroId: restroId });
     setMenu(response.data.data);
-    // console.log(response.data.data);
+    console.log(response.data.data);
   };
 
   useEffect(
