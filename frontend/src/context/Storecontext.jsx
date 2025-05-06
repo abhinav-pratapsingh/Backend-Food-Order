@@ -2,6 +2,7 @@ import { createContext, useState, useEffect } from "react";
 import { food_list } from "../assets/assets";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import { use } from "react";
 
 export const Storecontext = createContext(null);
 
@@ -12,7 +13,7 @@ const StoreContextProvider = (props) => {
   const [longi, setLongitude] = useState();
   const [cartItems, setCartItems] = useState({});
   const [restroRes, setRestroRes] = useState([]);
-  // const [id, setId] = useState();
+  const [cartItem, setCartItem] = useState([]);
   const url = "http://localhost:3000";
   const [forLoginToken, setForLoginToken] = useState(" ");
   const [token, setToken] = useState(localStorage.getItem("token") || "");
@@ -41,14 +42,6 @@ const StoreContextProvider = (props) => {
   };
 
   const removeFromCart = async (itemId, restroId) => {
-    // setCartItems((prev) => ({
-    //   ...prev,
-    //   [itemId]: {
-    //     ...prev[itemId],
-    //     [restroId]: { quantity: (prev[itemId]?.[restroId]?.quantity ?? 0) - 1 },
-    //   },
-    // }));
-
     setCartItems((prev) => {
       const currentQuantity = prev[itemId]?.[restroId]?.quantity ?? 0;
       const updatedQuantity = Math.max(currentQuantity - 1, 0); // Ensures quantity never goes below 0
@@ -74,18 +67,25 @@ const StoreContextProvider = (props) => {
   };
   //End add to cart
 
-  const getTotalCartAmount = async () => {
-    let totalAmount = 0;
-    for (const item in cartItems) {
-      if (cartItems[item] > 0) {
-        const itemInfo = food_list.find(
-          (product) => product.id === parseInt(item)
-        );
-        totalAmount += itemInfo.price * cartItems[item];
+  useEffect(() => {
+    const fetchCart = async () => {
+      const token = localStorage.getItem("token");
+      console.log("Token:", token);
+
+      try {
+        const res = await axios.post(url + "/api/cart/get", null, {
+          headers: { token: token },
+        });
+
+        setCartItem(res.data.data);
+        setMenu(res.data.data);
+      } catch (error) {
+        console.error("Error fetching cart:", error);
       }
-    }
-    return totalAmount;
-  };
+    };
+
+    fetchCart();
+  }, []);
 
   const [isLoggedIn, setIsLoggedIn] = useState(
     !!localStorage.getItem("tokens")
@@ -178,7 +178,7 @@ const StoreContextProvider = (props) => {
     setCartItems,
     addToCart,
     removeFromCart,
-    getTotalCartAmount,
+    // getTotalCartAmount,
     url,
     forLoginToken,
     setForLoginToken,
@@ -189,6 +189,8 @@ const StoreContextProvider = (props) => {
     setToken,
     setMenu,
     menu,
+    cartItem,
+    setCartItem,
 
     isLoggedIn,
     tokens,
