@@ -1,33 +1,33 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./Cart.css";
 import { Storecontext } from "../../src/context/Storecontext";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 
 const Cart = () => {
-  const { id } = useParams();
+  const { removeFromCart, url, cartItem, setCartItem } =
+    useContext(Storecontext);
+  let amount = 0;
+  const token = localStorage.getItem("token");
 
-  console.log(id);
-  const {
-    cartItems,
-    food_list,
-    setCartItems,
-    removeFromCart,
-    getTotalCartAmount,
-    url,
-  } = useContext(Storecontext);
+  const cart = async () => {
+    const res = await axios.post(url + "/api/cart/get", null, {
+      headers: { token: token },
+    });
+    setCartItem(res.data.data);
+  };
 
   useEffect(() => {
-    const cart = async () => {
-      const token = localStorage.getItem("token");
-      console.log(token);
-      const res = await axios.post(url + "/api/cart/get", null, {
-        headers: { token: token },
-      });
-      console.log(res);
-    };
     cart();
   });
+
+  {
+    cartItem.map((item, index) => {
+      let total = item.price * item.quantity;
+      amount = amount + total;
+      return amount;
+    });
+  }
 
   const navigate = useNavigate();
   return (
@@ -44,34 +44,32 @@ const Cart = () => {
           </div>
           <br />
           <hr />
-          {food_list.map((item, index) => {
-            if (cartItems[item.id] > 0) {
-              return (
-                <>
-                  {
-                    <>
-                      <div
-                        key={index}
-                        className="cart-items-title cart-items-item"
+          {cartItem.map((item, index) => {
+            return (
+              <>
+                {
+                  <>
+                    <div
+                      key={index}
+                      className="cart-items-title cart-items-item"
+                    >
+                      <img src={item.image} />
+                      <p>{item.name}</p>
+                      <p>&#x20B9; {item.price}</p>
+                      <p>{item.quantity}</p>
+                      <p>&#x20B9; {item.price * item.quantity}</p>
+                      <p
+                        className="cross"
+                        onClick={() => removeFromCart(item._id, item.restroId)}
                       >
-                        <img src={item.image} />
-                        <p>{item.name}</p>
-                        <p>&#x20B9; {item.price}</p>
-                        <p>{cartItems[item.id]}</p>
-                        <p>&#x20B9; {item.price * cartItems[item.id]}</p>
-                        <p
-                          className="cross"
-                          onClick={() => removeFromCart(item.id)}
-                        >
-                          x
-                        </p>
-                      </div>
-                      <hr />
-                    </>
-                  }
-                </>
-              );
-            }
+                        x
+                      </p>
+                    </div>
+                    <hr />
+                  </>
+                }
+              </>
+            );
           })}
         </div>
         <div className="cart-bottom">
@@ -80,18 +78,16 @@ const Cart = () => {
             <div>
               <div className="cart-total-details">
                 <p>Subtotal</p>
-                {/* <p>{getTotalCartAmount()}</p> */}
+                {amount}
               </div>
               <div className="cart-total-details">
                 <p>Delivery Fee</p>
-                {/* <p>{getTotalCartAmount() === 0 ? 0 : 2}</p> */}
+                Free
               </div>
               <hr />
               <div className="cart-total-details">
                 <b>Total</b>
-                <b>
-                  {/* {getTotalCartAmount() === 0 ? 0 : getTotalCartAmount() + 2} */}
-                </b>
+                <b>{amount}</b>
               </div>
             </div>
             <button onClick={() => navigate("/placeorder")}>
