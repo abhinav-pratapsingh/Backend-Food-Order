@@ -6,7 +6,6 @@ import FoodItem from "../foodItem/FoodItem";
 const FoodDisplay = ({ category }) => {
   const { food_list } = useContext(Storecontext);
 
-  // food_list ko randomly shuffle sirf **ek baar** karna hai
   const randomizedFoodList = useMemo(() => {
     return food_list
       .filter((item) => category === "All" || category === item.category)

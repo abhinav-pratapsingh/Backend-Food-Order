@@ -91,7 +91,6 @@ const LoginPopUp = ({ setShowLogin }) => {
             )}
             <div className="email-otp">
               <input
-                // onClick={location}
                 type="email"
                 name="email"
                 onChange={onChangeHandler}

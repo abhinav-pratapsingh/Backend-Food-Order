@@ -33,7 +33,10 @@ const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element=<Layout />>
       <Route path="" element=<Home /> />
-      <Route path="cart" element=<Cart /> />
+      <Route path="cart" element={<Cart />}>
+        <Route path="cart/:id" element=<Cart /> />
+      </Route>
+
       <Route path="/placeorder" element=<PlaceOrder /> />
       <Route path="/AddRestaurent" element=<RestaurentAddF /> />
       <Route path="/AddRestaurent" element={<RestaurentAdd />} />

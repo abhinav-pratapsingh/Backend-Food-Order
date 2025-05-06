@@ -1,6 +1,7 @@
 import { createContext, useState, useEffect } from "react";
 import { food_list } from "../assets/assets";
 import axios from "axios";
+import { useParams } from "react-router-dom";
 
 export const Storecontext = createContext(null);
 
@@ -11,29 +12,56 @@ const StoreContextProvider = (props) => {
   const [longi, setLongitude] = useState();
   const [cartItems, setCartItems] = useState({});
   const [restroRes, setRestroRes] = useState([]);
-  const [id, setId] = useState();
+  // const [id, setId] = useState();
   const url = "http://localhost:3000";
   const [forLoginToken, setForLoginToken] = useState(" ");
   const [token, setToken] = useState(localStorage.getItem("token") || "");
+  const [menu, setMenu] = useState([]);
 
-  const addToCart = async (itemId) => {
+  const addToCart = async (itemId, restroId) => {
     setCartItems((prev) => ({
       ...prev,
-      [itemId]: (prev[itemId] || 0) + 1, // ✅ Increment only the clicked item
+      [itemId]: {
+        ...prev[itemId],
+        [restroId]: { quantity: (prev[itemId]?.[restroId]?.quantity ?? 0) + 1 },
+      },
     }));
+
+    // console.log("Updated Cart Items:", updatedCart);
     const tokens = localStorage.getItem("token");
 
     if (tokens) {
-      await axios.post(
+      const res = await axios.post(
         url + "/api/cart/add",
-        { itemId: itemId },
+        { itemId: itemId, restroId: restroId },
         { headers: { token: tokens } }
       );
+      console.log(res);
     }
   };
 
-  const removeFromCart = async (itemId) => {
-    setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] - 1 }));
+  const removeFromCart = async (itemId, restroId) => {
+    // setCartItems((prev) => ({
+    //   ...prev,
+    //   [itemId]: {
+    //     ...prev[itemId],
+    //     [restroId]: { quantity: (prev[itemId]?.[restroId]?.quantity ?? 0) - 1 },
+    //   },
+    // }));
+
+    setCartItems((prev) => {
+      const currentQuantity = prev[itemId]?.[restroId]?.quantity ?? 0;
+      const updatedQuantity = Math.max(currentQuantity - 1, 0); // Ensures quantity never goes below 0
+
+      return {
+        ...prev,
+        [itemId]: {
+          ...prev[itemId],
+          [restroId]: { quantity: updatedQuantity },
+        },
+      };
+    });
+
     const tokens = localStorage.getItem("token");
 
     if (tokens) {
@@ -159,6 +187,8 @@ const StoreContextProvider = (props) => {
     restroRes,
     token,
     setToken,
+    setMenu,
+    menu,
 
     isLoggedIn,
     tokens,
