@@ -19,19 +19,17 @@ const Navbar = ({ setShowLogin, setRestLogin }) => {
     setForLoginToken,
     tokens,
     logout1,
+    token,
+    setToken,
   } = useContext(Storecontext);
-  const [token, setToken] = useState();
+  // const [token, setToken] = useState(localStorage.getItem("token") || "");
 
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    setToken(token);
-  }, []);
 
   const logout = () => {
     localStorage.removeItem("token");
     setForLoginToken("");
+    setToken("");
     navigate("/");
   };
 
@@ -70,8 +68,6 @@ const Navbar = ({ setShowLogin, setRestLogin }) => {
     };
   }, [setDistrict]);
 
-  // console.log(district);
-
   return (
     <>
       <div className="navbar">
@@ -109,13 +105,8 @@ const Navbar = ({ setShowLogin, setRestLogin }) => {
               <div /*className={getTotalCartAmount() === 0 ? "" : "dot"}*/
               ></div>
             </div>
-
             {!tokens ? (
-              !token ? (
-                <button onClick={() => setShowLogin(true)}>
-                  Log in / sign in
-                </button>
-              ) : (
+              token ? (
                 <div className="navbar-profile">
                   <img src={assets.profile_icon} />
                   <ul className="nav-profile-dropdown">
@@ -130,6 +121,10 @@ const Navbar = ({ setShowLogin, setRestLogin }) => {
                     </li>
                   </ul>
                 </div>
+              ) : (
+                <button onClick={() => setShowLogin(true)}>
+                  Log in / sign in
+                </button>
               )
             ) : (
               <></>

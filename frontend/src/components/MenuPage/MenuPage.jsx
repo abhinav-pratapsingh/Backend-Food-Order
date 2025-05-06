@@ -9,13 +9,13 @@ const MenuPage = () => {
   const { id } = useParams();
   const [menu, setMenu] = useState([]);
   const { url } = useContext(Storecontext);
-  const restroId = id;
+  const restro = id;
 
   const menuItems = async () => {
     let newUrl = url;
     newUrl += "/api/food/menu";
 
-    const response = await axios.post(newUrl, { restroId: restroId });
+    const response = await axios.post(newUrl, { restroId: restro });
     setMenu(response.data.data);
     // console.log(response.data.data);
   };
@@ -40,6 +40,7 @@ const MenuPage = () => {
                 <FoodItem
                   key={index}
                   id={item._id}
+                  restroId={item.restroId}
                   name={item.name}
                   img={item.image}
                   price={item.price}

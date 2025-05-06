@@ -1,10 +1,13 @@
 import React, { useContext, useEffect } from "react";
 import "./Cart.css";
 import { Storecontext } from "../../src/context/Storecontext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 
 const Cart = () => {
+  const { id } = useParams();
+
+  console.log(id);
   const {
     cartItems,
     food_list,
