@@ -12,7 +12,7 @@ const addToCart = async (req, res) => {
       return true;
     }
     else{
-      restro = await foodModel.findById(itemID);
+      const restro = await foodModel.findById(itemId);
       if(restro.restroId==restroId){ //check previous item id 
       
         return true;
@@ -23,7 +23,8 @@ const addToCart = async (req, res) => {
     }
     console.log(req.body.itemId);
     console.log(req.body.restroId);
-    if(isSameRestro){
+    console.log( await isSameRestro(req.body.restroId,itemId));
+    if(await isSameRestro(req.body.restroId,req.body.itemId)){
       if (!cartData[req.body.itemId]){
       cartData[req.body.itemId] = 1;
       } else {
