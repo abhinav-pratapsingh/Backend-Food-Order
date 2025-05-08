@@ -17,9 +17,9 @@ const Cart = () => {
     setCartItem(res.data.data);
   };
 
-  // useEffect(() => {
-  //   cart();
-  // });
+  useEffect(() => {
+    cart();
+  }, []);
 
   {
     cartItem.map((item, index) => {
@@ -64,7 +64,7 @@ const Cart = () => {
                           removeFromCart(item._id, item.restroId), cart();
                         }}
                       >
-                        x
+                        X
                       </p>
                     </div>
                     <hr />

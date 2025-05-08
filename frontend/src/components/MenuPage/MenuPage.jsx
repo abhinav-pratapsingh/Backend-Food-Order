@@ -28,8 +28,6 @@ const MenuPage = () => {
     [id]
   );
 
-  // console.log(menu);
-
   return (
     <>
       <div className="Restro-Menu-List">
