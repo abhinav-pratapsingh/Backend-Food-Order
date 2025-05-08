@@ -44,7 +44,7 @@ const StoreContextProvider = (props) => {
   const removeFromCart = async (itemId, restroId) => {
     setCartItems((prev) => {
       const currentQuantity = prev[itemId]?.[restroId]?.quantity ?? 0;
-      const updatedQuantity = Math.max(currentQuantity - 1, 0); // Ensures quantity never goes below 0
+      const updatedQuantity = Math.max(currentQuantity - 1, 0);
 
       return {
         ...prev,
@@ -65,12 +65,12 @@ const StoreContextProvider = (props) => {
       );
     }
   };
+
   //End add to cart
 
   useEffect(() => {
     const fetchCart = async () => {
       const token = localStorage.getItem("token");
-      console.log("Token:", token);
 
       try {
         const res = await axios.post(url + "/api/cart/get", null, {
@@ -85,7 +85,7 @@ const StoreContextProvider = (props) => {
     };
 
     fetchCart();
-  }, []);
+  }, [setCartItem, setMenu]);
 
   const [isLoggedIn, setIsLoggedIn] = useState(
     !!localStorage.getItem("tokens")

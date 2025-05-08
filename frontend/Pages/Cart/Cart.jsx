@@ -17,9 +17,9 @@ const Cart = () => {
     setCartItem(res.data.data);
   };
 
-  useEffect(() => {
-    cart();
-  });
+  // useEffect(() => {
+  //   cart();
+  // });
 
   {
     cartItem.map((item, index) => {
@@ -60,7 +60,9 @@ const Cart = () => {
                       <p>&#x20B9; {item.price * item.quantity}</p>
                       <p
                         className="cross"
-                        onClick={() => removeFromCart(item._id, item.restroId)}
+                        onClick={() => {
+                          removeFromCart(item._id, item.restroId), cart();
+                        }}
                       >
                         x
                       </p>
