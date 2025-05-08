@@ -183,6 +183,7 @@ const calculateDistanceOSRM = async (origin, destination) => {
 // Main function to find nearby restaurants with fallback between ORS and OSRM
 const nearRestro = async (req, res) => {
   try {
+    console.log(req.body.longi,req.body.lati);
     const origin = [req.body.longi, req.body.lati];
     const district = req.body.district;
     const restros = await restroModel.find({
