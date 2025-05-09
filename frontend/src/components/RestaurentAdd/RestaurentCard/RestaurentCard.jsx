@@ -8,6 +8,10 @@ const RestaurantCard = ({ img, name }) => {
   const navigate = useNavigate();
   return (
     <>
+      <div className="restaurent-header">
+        <h1>Top Restaurant Near You</h1>
+      </div>
+
       <div className="restaurentCard-container">
         {restroRes.map((items, index) => {
           return (

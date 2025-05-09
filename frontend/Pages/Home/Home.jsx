@@ -14,11 +14,6 @@ const Home = () => {
       <div>
         <Header />
         <RestaurentCard setSelectedRestroId={setSelectedRestroId} />
-        <Exploremenu category={category} setCategory={setCategory} />
-        <FoodDisplay
-          category={category}
-          setSelectedRestroId={setSelectedRestroId}
-        />
         <DownloadApp />
       </div>
     </>

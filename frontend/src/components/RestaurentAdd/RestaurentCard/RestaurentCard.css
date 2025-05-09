@@ -1,3 +1,11 @@
+.restaurent-header{
+    margin: 40px 0px;
+}
+
+.restaurent-header h1{
+    color: black;
+}
+
 .restaurentCard-container{
     display: grid;
     grid-template-columns: repeat(4,1fr);
