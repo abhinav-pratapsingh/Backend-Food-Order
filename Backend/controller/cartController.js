@@ -24,13 +24,14 @@ const addToCart = async (req, res) => {
     console.log(req.body.itemId);
     console.log(req.body.restroId);
     console.log( await isSameRestro(req.body.restroId,itemId));
+
     if(await isSameRestro(req.body.restroId,req.body.itemId)){
       if (!cartData[req.body.itemId]){
       cartData[req.body.itemId] = 1;
       } else {
       cartData[req.body.itemId] += 1;
       }
-   
+      
        await userModel.findByIdAndUpdate(req.body.userId, { cartData });
        console.log(cartData);
        res.json({ success: true, message: `success` });
@@ -40,7 +41,7 @@ const addToCart = async (req, res) => {
     await userModel.findByIdAndUpdate(req.body.userId,{cartData});
     res.json ({success:true , message:"cart reset with new restaurent"})
   }
-    
+
   } catch (error) {
     res.json({ success: false, message: `failed ${error}` });
   }
@@ -49,10 +50,14 @@ const addToCart = async (req, res) => {
 const removeFromCart = async (req, res) => {
   try {
     const userData = await userModel.findOne({ _id: req.body.userId });
-    const cartData = await userData.cartData;
+    const cartData = userData.cartData;
     if (cartData[req.body.itemId] > 0) {
       cartData[req.body.itemId] -= 1;
+      if(cartData[req.body.itemId]==0){
+        delete cartData[req.body.itemId];
+      }
     }
+
     await userModel.findByIdAndUpdate(req.body.userId, { cartData });
     res.json({ success: true, message: `success` });
   } catch (e) {
