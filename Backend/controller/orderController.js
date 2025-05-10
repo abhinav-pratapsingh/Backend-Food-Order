@@ -8,8 +8,7 @@ const  instance = new Razorpay({ key_id: process.env.key_id, key_secret: process
 
 
 const placeOrder = async(req,res)=>{
-
-    console.log(process.env.key_id,process.env.key_secret);
+    const key = process.env.key_id;
     try {
         const newOrder = new orderModel({
             restroId : req.body.restroId,
@@ -28,10 +27,10 @@ const placeOrder = async(req,res)=>{
             receipt: `order_reciept_${newOrder._id}`
           };
 
-        const razorpayOrder = instance.orders.create(options);
+        const razorpayOrder = await instance.orders.create(options);
         newOrder.razorpay_id = razorpayOrder.id;
         await newOrder.save();
-        res.json({success:true,message:"order created",razorpayData:razorpayOrder,orderId:newOrder._id});
+        res.json({success:true,message:"order created",razorpayOrder,key});
 
     } catch (e) {
         res.json({success:false,message:`order creation failed... ${e}`});
