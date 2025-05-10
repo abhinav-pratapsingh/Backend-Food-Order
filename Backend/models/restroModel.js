@@ -11,6 +11,8 @@ const restroSchema = new mongoose.Schema({
     status : {type:Number,default:0}//0 for registration pending ,1  for restration on hold,3 for restro active,2 for Account blocked
 })
 
+restroSchema.index({name:1});
+
 const restroModel = mongoose.model("restroModel",restroSchema);
 
 export default restroModel; 

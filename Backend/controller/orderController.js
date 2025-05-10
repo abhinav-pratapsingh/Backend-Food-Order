@@ -1,6 +1,8 @@
 import orderModel from "../models/orderModels.js";
 import userModel from "../models/userModel.js";
 import Razorpay from 'razorpay';
+import crypto from 'crypto';
+import { error } from "console";
 
 const  instance = new Razorpay({ key_id: process.env.key_id, key_secret: process.env.key_secret })
 
@@ -10,57 +12,53 @@ const placeOrder = async(req,res)=>{
     console.log(process.env.key_id,process.env.key_secret);
     try {
         const newOrder = new orderModel({
+            restroId : req.body.restroId,
             userId : req.body.userId,
             items:req.body.items,
             amount:req.body.amount,
             address:req.body.address
-        })
+        });
         await newOrder.save();
+
         await userModel.findByIdAndUpdate(req.body.userId,{cartData:{}});
-        const u = req.body.items;
 
         const options = {
             amount: req.body.amount*100,  // amount in the smallest currency unit
             currency: "INR",
-            receipt: "order_rcptid_11"
+            receipt: `order_reciept_${newOrder._id}`
           };
-          instance.orders.create(options,function(err, order) {
-            console.log(order);
-            res.json({})
-            if(err){
-                console.log("eroorrrrr",err);
-            }
-          });
 
-        res.json({success:true,data:order});
+        const razorpayOrder = instance.orders.create(options);
+        newOrder.razorpay_id = razorpayOrder.id;
+        await newOrder.save();
+        res.json({success:true,message:"order created",razorpayData:razorpayOrder,orderId:newOrder._id});
 
     } catch (e) {
-        res.json({success:false,message:`failed ${e}`});
+        res.json({success:false,message:`order creation failed... ${e}`});
     }
 
-
-        // code for stripe payment gateway;
-        // const line_items = u.map((item)=>({
-           
-        //     price_data:{
-        //         currency:"inr",
-        //         product_data : {name:item.name},
-        //         unit_amount:  item.price*100,
-        //         quantity:    item.quantity
-        //     }}));
-
-        // line_items.push({
-        //     price_data:{
-        //         currency:"inr",
-        //         product_data:{name:"delivery charges"},
-        //         unit_amount:2*100
-        //     },
-        //     quantity:1
-        // });
-
-       
-
 };
+
+const verifyPayment = async (req,res)=>{
+    const { razorpay_payment_id, razorpay_order_id, razorpay_signature,orderId} = req.body;
+    const body = razorpay_order_id + "|" + razorpay_payment_id;
+    try{
+    const expectedSignature = crypto
+    .createHmac("sha256", process.env.key_secret)
+    .update(body)
+    .digest("hex");
+    if(expectedSignature===razorpay_signature){
+        const orderData = await orderModel.findByIdAndUpdate(orderId,{payment:true});
+        return res.json({success:true,message:"payment successfull"})
+    }
+    else{
+        return res.json({success:false,message:"payment verification failed try again"});
+    }
+}
+catch(e){
+    res.json({success:false,message:"internal server error while verifying payment please try again later"});
+}
+}
 
 const userOrders = async(req,res)=>{
     try {
@@ -94,4 +92,4 @@ const updateOrderStatus = async (req,res)=>{
 
 
 
-export {placeOrder,userOrders,updateOrderStatus,listOrders};
+export {placeOrder,userOrders,updateOrderStatus,listOrders,verifyPayment};

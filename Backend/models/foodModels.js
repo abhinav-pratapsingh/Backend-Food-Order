@@ -9,6 +9,8 @@ const foodSchema = new mongoose.Schema({
     category : {type : String,required:true}
 });
 
+foodSchema.index({name : 1});
+
 const foodModel = mongoose.model.food || mongoose.model('food',foodSchema);
 
 export default foodModel;

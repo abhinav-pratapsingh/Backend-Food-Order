@@ -14,6 +14,7 @@ import orderRouter from "./routes/orderRoutes.js";
 import addressRouter from "./routes/addressRoutes.js";
 import restroRouter from "./routes/restroRoutes.js";
 import adminRouter from "./routes/adminRoutes.js";
+import searchRouter from "./routes/searchRoutes.js";
 
 // app config
 const app = express();
@@ -54,6 +55,7 @@ app.use("/api/order", orderRouter);
 app.use("/api/address", addressRouter);
 app.use("/api/restro", restroRouter);
 app.use("/admin", adminRouter);
+app.use("/api/search",searchRouter);
 app.use("/images", express.static("uploads"));
 
 //app.listen
