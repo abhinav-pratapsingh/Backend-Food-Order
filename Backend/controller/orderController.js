@@ -2,7 +2,6 @@ import orderModel from "../models/orderModels.js";
 import userModel from "../models/userModel.js";
 import Razorpay from "razorpay";
 import crypto from "crypto";
-import { error } from "console";
 
 const instance = new Razorpay({
   key_id: process.env.key_id,
@@ -19,57 +18,32 @@ const placeOrder = async (req, res) => {
       amount: req.body.amount,
       address: req.body.address,
     });
+
     await newOrder.save();
-
-
     await userModel.findByIdAndUpdate(req.body.userId, { cartData: {} });
 
     const options = {
-      amount: req.body.amount * 100,
+      amount: req.body.amount * 100, // Razorpay expects amount in paise
       currency: "INR",
       receipt: `order_reciept_${newOrder._id}`,
     };
 
-const placeOrder = async(req,res)=>{
-    const key = process.env.key_id;
-    try {
-        const newOrder = new orderModel({
-            restroId : req.body.restroId,
-            userId : req.body.userId,
-            items:req.body.items,
-            amount:req.body.amount,
-            address:req.body.address
-        });
-        await newOrder.save();
-
-        await userModel.findByIdAndUpdate(req.body.userId,{cartData:{}});
-
-        const options = {
-            amount: req.body.amount*100,  // amount in the smallest currency unit
-            currency: "INR",
-            receipt: `order_reciept_${newOrder._id}`
-          };
-
-        const razorpayOrder = await instance.orders.create(options);
-        newOrder.razorpay_id = razorpayOrder.id;
-        await newOrder.save();
-        res.json({success:true,message:"order created",razorpayOrder,key});
-
-    } catch (e) {
-        res.json({success:false,message:`order creation failed... ${e}`});
-    }
-
-    const razorpayOrder = instance.orders.create(options);
+    const razorpayOrder = await instance.orders.create(options);
     newOrder.razorpay_id = razorpayOrder.id;
     await newOrder.save();
+
     res.json({
       success: true,
-      message: "order created",
-      razorpayData: razorpayOrder,
-      orderId: newOrder._id,
+      message: "Order created successfully",
+      razorpayOrder,
+      key: process.env.key_id,
     });
-  } catch (e) {
-    res.json({ success: false, message: `order creation failed... ${e}` });
+  } catch (error) {
+    console.error("Order creation failed:", error);
+    res.status(500).json({
+      success: false,
+      message: `Order creation failed: ${error.message}`,
+    });
   }
 };
 
@@ -81,27 +55,26 @@ const verifyPayment = async (req, res) => {
     orderId,
   } = req.body;
   const body = razorpay_order_id + "|" + razorpay_payment_id;
+
   try {
     const expectedSignature = crypto
       .createHmac("sha256", process.env.key_secret)
       .update(body)
       .digest("hex");
+
     if (expectedSignature === razorpay_signature) {
-      const orderData = await orderModel.findByIdAndUpdate(orderId, {
-        payment: true,
-      });
-      return res.json({ success: true, message: "payment successfull" });
+      await orderModel.findByIdAndUpdate(orderId, { payment: true });
+      return res.json({ success: true, message: "Payment successful" });
     } else {
-      return res.json({
-        success: false,
-        message: "payment verification failed try again",
-      });
+      return res
+        .status(400)
+        .json({ success: false, message: "Payment verification failed" });
     }
-  } catch (e) {
-    res.json({
+  } catch (error) {
+    console.error("Payment verification error:", error);
+    res.status(500).json({
       success: false,
-      message:
-        "internal server error while verifying payment please try again later",
+      message: "Internal server error while verifying payment",
     });
   }
 };
@@ -111,24 +84,40 @@ const userOrders = async (req, res) => {
     const orders = await orderModel.find({ userId: req.body.userId });
     res.json({ success: true, data: orders });
   } catch (error) {
-    console.log(e);
-    res.json({ success: false, msg: "cannot fetch orders" });
+    console.error("Fetching user orders failed:", error);
+    res.status(500).json({ success: false, message: "Cannot fetch orders" });
   }
 };
 
 const listOrders = async (req, res) => {
   try {
-    const orders = await orderModel.find({ userId: req.body.userId });
+    const orders = await orderModel.find();
     res.json({ success: true, data: orders });
-  } catch (e) {
-    res.json({ success: false, message: "cannot fecth orders" });
+  } catch (error) {
+    console.error("Fetching order list failed:", error);
+    res.status(500).json({ success: false, message: "Cannot fetch orders" });
   }
 };
 
 const updateOrderStatus = async (req, res) => {
-  const order = await orderModel.findOne({ _id: req.body.orderId });
-  order.status = req.body.orderStatus;
-  res.json({ success: true, message: "successfull", data: order });
+  try {
+    const order = await orderModel.findById(req.body.orderId);
+    if (!order) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Order not found" });
+    }
+
+    order.status = req.body.orderStatus;
+    await order.save();
+
+    res.json({ success: true, message: "Order status updated", data: order });
+  } catch (error) {
+    console.error("Updating order status failed:", error);
+    res
+      .status(500)
+      .json({ success: false, message: "Error updating order status" });
+  }
 };
 
 export { placeOrder, userOrders, updateOrderStatus, listOrders, verifyPayment };
