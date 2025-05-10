@@ -21,6 +21,7 @@ const placeOrder = async (req, res) => {
     });
     await newOrder.save();
 
+
     await userModel.findByIdAndUpdate(req.body.userId, { cartData: {} });
 
     const options = {
@@ -28,6 +29,35 @@ const placeOrder = async (req, res) => {
       currency: "INR",
       receipt: `order_reciept_${newOrder._id}`,
     };
+
+const placeOrder = async(req,res)=>{
+    const key = process.env.key_id;
+    try {
+        const newOrder = new orderModel({
+            restroId : req.body.restroId,
+            userId : req.body.userId,
+            items:req.body.items,
+            amount:req.body.amount,
+            address:req.body.address
+        });
+        await newOrder.save();
+
+        await userModel.findByIdAndUpdate(req.body.userId,{cartData:{}});
+
+        const options = {
+            amount: req.body.amount*100,  // amount in the smallest currency unit
+            currency: "INR",
+            receipt: `order_reciept_${newOrder._id}`
+          };
+
+        const razorpayOrder = await instance.orders.create(options);
+        newOrder.razorpay_id = razorpayOrder.id;
+        await newOrder.save();
+        res.json({success:true,message:"order created",razorpayOrder,key});
+
+    } catch (e) {
+        res.json({success:false,message:`order creation failed... ${e}`});
+    }
 
     const razorpayOrder = instance.orders.create(options);
     newOrder.razorpay_id = razorpayOrder.id;
