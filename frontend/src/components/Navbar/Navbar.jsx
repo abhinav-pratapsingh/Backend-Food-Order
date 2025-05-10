@@ -14,13 +14,13 @@ import axios from "axios";
 const Navbar = ({ setShowLogin, setRestLogin }) => {
   const [district, setDistrict] = useState("");
   const {
-    getTotalCartAmount,
-    forLoginToken,
     setForLoginToken,
     tokens,
     logout1,
     token,
     setToken,
+    amount,
+    fetchCart,
   } = useContext(Storecontext);
   // const [token, setToken] = useState(localStorage.getItem("token") || "");
 
@@ -99,11 +99,15 @@ const Navbar = ({ setShowLogin, setRestLogin }) => {
           <div className="navbar-right">
             <img src={assets.search_icon} />
             <div className="navbar-search-icon">
-              <Link to="/cart">
-                <img src={assets.basket_icon} />
-              </Link>
-              <div /*className={getTotalCartAmount() === 0 ? "" : "dot"}*/
-              ></div>
+              {token ? (
+                <Link to="/cart">
+                  <img src={assets.basket_icon} />
+                </Link>
+              ) : (
+                <></>
+              )}
+
+              <div className={amount === 0 ? "" : "dot"}></div>
             </div>
             {!tokens ? (
               token ? (

@@ -5,29 +5,14 @@ import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 
 const Cart = () => {
-  const { removeFromCart, url, cartItem, setCartItem } =
+  const { removeFromCart, url, cartItem, fetchCart, amount } =
     useContext(Storecontext);
-  let amount = 0;
-  const token = localStorage.getItem("token");
-
-  const cart = async () => {
-    const res = await axios.post(url + "/api/cart/get", null, {
-      headers: { token: token },
-    });
-    setCartItem(res.data.data);
-  };
 
   useEffect(() => {
-    cart();
+    fetchCart();
   }, []);
 
-  {
-    cartItem.map((item, index) => {
-      let total = item.price * item.quantity;
-      amount = amount + total;
-      return amount;
-    });
-  }
+  const token = localStorage.getItem("token");
 
   const navigate = useNavigate();
   return (
@@ -61,7 +46,7 @@ const Cart = () => {
                       <p
                         className="cross"
                         onClick={() => {
-                          removeFromCart(item._id, item.restroId), cart();
+                          removeFromCart(item._id, item.restroId), fetchCart();
                         }}
                       >
                         X

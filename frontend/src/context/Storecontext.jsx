@@ -18,6 +18,7 @@ const StoreContextProvider = (props) => {
   const [forLoginToken, setForLoginToken] = useState(" ");
   const [token, setToken] = useState(localStorage.getItem("token") || "");
   const [menu, setMenu] = useState([]);
+  let amount = 0;
 
   const addToCart = async (itemId, restroId) => {
     setCartItems((prev) => ({
@@ -37,7 +38,7 @@ const StoreContextProvider = (props) => {
         { itemId: itemId, restroId: restroId },
         { headers: { token: tokens } }
       );
-      console.log(res);
+      // console.log(res);
     }
   };
 
@@ -68,24 +69,28 @@ const StoreContextProvider = (props) => {
 
   //End add to cart
 
-  useEffect(() => {
-    const fetchCart = async () => {
-      const token = localStorage.getItem("token");
+  const fetchCart = async () => {
+    const token = localStorage.getItem("token");
 
-      try {
-        const res = await axios.post(url + "/api/cart/get", null, {
-          headers: { token: token },
-        });
+    try {
+      const res = await axios.post(url + "/api/cart/get", null, {
+        headers: { token: token },
+      });
 
-        setCartItem(res.data.data);
-        setMenu(res.data.data);
-      } catch (error) {
-        console.error("Error fetching cart:", error);
-      }
-    };
+      setCartItem(res.data.data);
+      setMenu(res.data.data);
+    } catch (error) {
+      console.error("Error fetching cart:", error);
+    }
+  };
 
-    fetchCart();
-  }, [setCartItem, setMenu]);
+  {
+    cartItem.map((item, index) => {
+      let total = item.price * item.quantity;
+      amount = amount + total;
+      return amount;
+    });
+  }
 
   const [isLoggedIn, setIsLoggedIn] = useState(
     !!localStorage.getItem("tokens")
@@ -191,6 +196,8 @@ const StoreContextProvider = (props) => {
     menu,
     cartItem,
     setCartItem,
+    fetchCart,
+    amount,
 
     isLoggedIn,
     tokens,
