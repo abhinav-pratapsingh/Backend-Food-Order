@@ -51,24 +51,25 @@ const verifyPayment = async (req, res) => {
   const {
     razorpay_payment_id,
     razorpay_order_id,
-    razorpay_signature,
-    orderId,
+    razorpay_signature
   } = req.body;
   const body = razorpay_order_id + "|" + razorpay_payment_id;
 
   try {
+    console.log("inside try verify")
     const expectedSignature = crypto
       .createHmac("sha256", process.env.key_secret)
       .update(body)
       .digest("hex");
 
     if (expectedSignature === razorpay_signature) {
-      await orderModel.findByIdAndUpdate(orderId, { payment: true });
+      const data = await orderModel.updateOne({razorpay_id:razorpay_order_id},{ payment: true });
       return res.json({ success: true, message: "Payment successful" });
     } else {
+        console.log("inside else;")
       return res
         .status(400)
-        .json({ success: false, message: "Payment verification failed" });
+        .json({ success: false, message: "Payment verification failed hello ,,,,,," });
     }
   } catch (error) {
     console.error("Payment verification error:", error);
@@ -78,6 +79,16 @@ const verifyPayment = async (req, res) => {
     });
   }
 };
+
+const getRazorpayOrders = async (req, res) => {
+    try {
+      const orders = await instance.orders.all({ limit: 20 }); // you can increase/decrease limit
+      res.json({ success: true, data: orders });
+    } catch (error) {
+      console.error("Error fetching Razorpay orders:", error);
+      res.status(500).json({ success: false, message: "Failed to fetch orders" });
+    }
+  };
 
 const userOrders = async (req, res) => {
   try {
@@ -120,4 +131,4 @@ const updateOrderStatus = async (req, res) => {
   }
 };
 
-export { placeOrder, userOrders, updateOrderStatus, listOrders, verifyPayment };
+export { placeOrder, userOrders, updateOrderStatus, listOrders, verifyPayment,getRazorpayOrders };

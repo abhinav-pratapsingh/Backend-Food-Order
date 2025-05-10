@@ -314,11 +314,13 @@ const PlaceOrder = () => {
 
   const verifyPayment = async (response) => {
     try {
+      console.log(response);
       const verificationResponse = await axios.post(url + "/api/order/verify", {
         razorpay_payment_id: response.razorpay_payment_id,
         razorpay_order_id: response.razorpay_order_id,
-        razorpay_signature: response.razorpay_signature,
-        orderId: response.order_id,
+        razorpay_signature: response.razorpay_signature
+      },{
+        headers: { token: token },
       });
 
       const data = verificationResponse.data;
