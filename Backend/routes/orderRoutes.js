@@ -1,5 +1,5 @@
 import express from 'express';
-import {placeOrder,updateOrderStatus,userOrders,listOrders, verifyPayment, getRazorpayOrders, listOrdersPending, listOrdersOutForDelivery, listOrdersDelivered} from "../controller/orderController.js";
+import {placeOrder,updateOrderStatus,userOrders, verifyPayment, getRazorpayOrders, listOrdersPending, listOrdersOutForDelivery, listOrdersDelivered} from "../controller/orderController.js";
 import { authMiddleware} from '../middleware/auth.js';
 import trimValues from '../middleware/trimValues.js';
 

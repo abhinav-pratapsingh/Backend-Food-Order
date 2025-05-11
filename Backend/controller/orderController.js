@@ -56,17 +56,15 @@ const verifyPayment = async (req, res) => {
   const body = razorpay_order_id + "|" + razorpay_payment_id;
 
   try {
-    console.log("inside try verify")
     const expectedSignature = crypto
       .createHmac("sha256", process.env.key_secret)
       .update(body)
       .digest("hex");
 
     if (expectedSignature === razorpay_signature) {
-      const data = await orderModel.updateOne({razorpay_id:razorpay_order_id},{ payment: true , status:"food processing" });
+      const data = await orderModel.updateOne({razorpay_id:razorpay_order_id},{ payment: true , status:1 });
       return res.json({ success: true, message: "Payment successful" });
     } else {
-        console.log("inside else;")
       return res
         .status(400)
         .json({ success: false, message: "Payment verification failed hello ,,,,,," });
