@@ -63,7 +63,7 @@ const verifyPayment = async (req, res) => {
       .digest("hex");
 
     if (expectedSignature === razorpay_signature) {
-      const data = await orderModel.updateOne({razorpay_id:razorpay_order_id},{ payment: true });
+      const data = await orderModel.updateOne({razorpay_id:razorpay_order_id},{ payment: true , status:"food processing" });
       return res.json({ success: true, message: "Payment successful" });
     } else {
         console.log("inside else;")
@@ -100,15 +100,37 @@ const userOrders = async (req, res) => {
   }
 };
 
-const listOrders = async (req, res) => {
+
+// restro oreder controllers
+const listOrdersPending = async (req, res) => {
   try {
-    const orders = await orderModel.find();
+    const orders = await orderModel.find({restroId:req.body.restroId,status:1}).sort({date:-1});
     res.json({ success: true, data: orders });
   } catch (error) {
     console.error("Fetching order list failed:", error);
     res.status(500).json({ success: false, message: "Cannot fetch orders" });
   }
 };
+
+const listOrdersOutForDelivery = async(req,res)=>{
+  try {
+    const orders = await orderModel.find({restroId:req.body.restroId,status:2}).sort({date:-1});
+    res.json({ success: true, data: orders });
+  } catch (error) {
+    console.error("Fetching order list failed:", error);
+    res.status(500).json({ success: false, message: "Cannot fetch orders" });
+  }
+}
+
+const listOrdersDelivered = async(req,res)=>{
+  try {
+    const orders = await orderModel.find({restroId:req.body.restroId,status:3}).sort({date:-1});
+    res.json({ success: true, data: orders });
+  } catch (error) {
+    console.error("Fetching order list failed:", error);
+    res.status(500).json({ success: false, message: "Cannot fetch orders" });
+  }
+}
 
 const updateOrderStatus = async (req, res) => {
   try {
@@ -131,4 +153,4 @@ const updateOrderStatus = async (req, res) => {
   }
 };
 
-export { placeOrder, userOrders, updateOrderStatus, listOrders, verifyPayment,getRazorpayOrders };
+export { placeOrder, userOrders, updateOrderStatus,verifyPayment,getRazorpayOrders,listOrdersOutForDelivery,listOrdersDelivered,listOrdersPending};
