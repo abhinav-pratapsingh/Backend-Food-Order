@@ -22,7 +22,7 @@ orderRouter.get("/getorder", getRazorpayOrders);
 
 // restro order routes
 
-orderRouter.post(
+orderRouter.get(
   "/pending",
   trimValues,
   authMiddlewareRestro,
