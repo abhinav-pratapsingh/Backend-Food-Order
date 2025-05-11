@@ -74,7 +74,7 @@ const Cart = () => {
               <hr />
               <div className="cart-total-details">
                 <b>Total</b>
-                <b>{amount}</b>
+                <b>&#x20B9; {amount}</b>
               </div>
             </div>
             <button onClick={() => navigate("/placeorder")}>
