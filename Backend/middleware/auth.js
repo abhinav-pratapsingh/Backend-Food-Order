@@ -25,7 +25,7 @@ const authMiddlewareRestro = async (req, res, next) => {
       return res.json({ success: false, message: "Please login first" });
     }
     const token_decode = jwt.verify(token, process.env.JWT_SECRET);
-    req.body.restroId = token_decode.id;
+    req.restroId = token_decode.id;
     next();
   } catch (e) {
     console.log(e);

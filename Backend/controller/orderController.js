@@ -102,7 +102,7 @@ const userOrders = async (req, res) => {
 // restro oreder controllers
 const listOrdersPending = async (req, res) => {
   try {
-    const orders = await orderModel.find({restroId:req.body.restroId,payment:true,status:"food processing"}).sort({date:-1});
+    const orders = await orderModel.find({restroId:req.restroId,payment:true,status:"food processing"}).sort({date:-1});
     res.json({ success: true, data: orders });
   } catch (error) {
     console.error("Fetching order list failed:", error);
@@ -112,7 +112,7 @@ const listOrdersPending = async (req, res) => {
 
 const listOrdersOutForDelivery = async(req,res)=>{
   try {
-    const orders = await orderModel.find({restroId:req.body.restroId,payment:true,status:"out for delivery"}).sort({date:-1});
+    const orders = await orderModel.find({restroId:req.restroId,payment:true,status:"out for delivery"}).sort({date:-1});
     res.json({ success: true, data: orders });
   } catch (error) {
     console.error("Fetching order list failed:", error);
@@ -122,7 +122,7 @@ const listOrdersOutForDelivery = async(req,res)=>{
 
 const listOrdersDelivered = async(req,res)=>{
   try {
-    const orders = await orderModel.find({restroId:req.body.restroId,payment:true,status:"delivered"}).sort({date:-1});
+    const orders = await orderModel.find({restroId:req.restroId,payment:true,status:"delivered"}).sort({date:-1});
     res.json({ success: true, data: orders });
   } catch (error) {
     console.error("Fetching order list failed:", error);
