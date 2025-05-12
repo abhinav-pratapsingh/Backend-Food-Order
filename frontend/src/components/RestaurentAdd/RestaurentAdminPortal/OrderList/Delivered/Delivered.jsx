@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import "./Delivered.css";
 import { Storecontext } from "../../../../../context/Storecontext";
 import axios from "axios";
+import { assets } from "../../../../../assets/assets";
 
 const Delivered = () => {
   const { url } = useContext(Storecontext);

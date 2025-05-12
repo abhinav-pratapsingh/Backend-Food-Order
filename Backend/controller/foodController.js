@@ -1,5 +1,12 @@
 import foodModel from "../models/foodModels.js";
 import fs from "fs";
+import cloudinary from "cloudinary";
+
+cloudinary.config({
+  cloud_name: process.env.cloud_name,
+  api_key: process.env.c_api_key,
+  api_secret: process.env.c_api_secret,
+});
 
 const addfood = async (req, res) => {
   let image_filename = `${req.imageUrl}`;
@@ -47,12 +54,29 @@ const listFood = async (req, res) => {
 const removeFood = async (req, res) => {
   try {
     const food = await foodModel.findById(req.body.id);
-    fs.unlink(`uploads/${food.image}`, () => {});
+
+    // Extract public ID from Cloudinary URL
+    const extractPublicId = (url) => {
+      const parts = url.split('/upload/')[1];
+      const segments = parts.split('/');
+      segments.shift(); // Remove version from link
+      const filename = segments.pop().split('.')[0]; // Remove extension
+      return [...segments, filename].join('/');
+    };
+
+    const publicId = extractPublicId(food.image);
+
+    // Delete image from Cloudinary
+    await cloudinary.uploader.destroy(publicId);
+
+    // Delete food item from database
     await foodModel.findByIdAndDelete(food._id);
-    res.json({ success: true, message: "removed food" });
+
+    res.json({ success: true, message: "Removed food and deleted image from Cloudinary" });
   } catch (e) {
-    res.json({ success: false, message: `failed ${e}` });
+    res.json({ success: false, message: `Failed: ${e.message}` });
   }
 };
+
 
 export { addfood, listFood, removeFood, menu };
