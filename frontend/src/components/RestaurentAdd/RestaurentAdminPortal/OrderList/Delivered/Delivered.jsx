@@ -1,18 +1,16 @@
 import React, { useContext, useEffect, useState } from "react";
-import "./OrderList.css";
-import { assets } from "../../../../assets/assets";
-import { Storecontext } from "../../../../context/Storecontext";
+import "./Delivered.css";
+import { Storecontext } from "../../../../../context/Storecontext";
 import axios from "axios";
 
-const OrderList = () => {
-  const [order, setOrder] = useState([]);
+const Delivered = () => {
   const { url } = useContext(Storecontext);
-
+  const [order, setOrder] = useState([]);
   const token = localStorage.getItem("tokens");
   // console.log(token);
 
   const fetchAllOrder = async () => {
-    const response = await axios.post(url + "/api/order/pending", null, {
+    const response = await axios.post(url + "/api/order/delivered", null, {
       headers: { token: token },
     });
 
@@ -80,8 +78,6 @@ const OrderList = () => {
                     onChange={(event) => status(event, orders._id)}
                     value={order.status}
                   >
-                    <option value="food processing">Food Processing</option>
-                    <option value="out for delivery">Out for delivery</option>
                     <option value="delivered">Delivered</option>
                   </select>
                 </div>
@@ -94,4 +90,4 @@ const OrderList = () => {
   );
 };
 
-export default OrderList;
+export default Delivered;

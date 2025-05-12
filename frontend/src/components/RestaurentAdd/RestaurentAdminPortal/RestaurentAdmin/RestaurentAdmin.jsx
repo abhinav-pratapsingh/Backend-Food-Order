@@ -17,9 +17,19 @@ const RestaurentAdmin = () => {
               <button>Your Menu List</button>
             </div>
           </Link>
-          <Link to="Check-Order">
+          <Link to="new_order">
             <div className="Order-Button">
-              <button>Check Order List</button>
+              <button>New Order</button>
+            </div>
+          </Link>
+          <Link to="order-out-for-delivery">
+            <div className="Order-Button">
+              <button>Out for delivery</button>
+            </div>
+          </Link>
+          <Link to="order-Delivered-list">
+            <div className="Order-Button">
+              <button>Delivered</button>
             </div>
           </Link>
         </div>

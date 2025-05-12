@@ -23,6 +23,8 @@ import RestaurentAdd from "./components/RestaurentAdd/RestaurentAdd";
 import StoreContextProvider, { Storecontext } from "./context/Storecontext";
 import MenuPage from "./components/MenuPage/MenuPage";
 import MyOrder from "../Pages/Myorder/MyOrder";
+import OutForDelivery from "../src/components/RestaurentAdd/RestaurentAdminPortal/OrderList/OutForDelivery/OutForDelivery";
+import Delivered from "./components/RestaurentAdd/RestaurentAdminPortal/OrderList/Delivered/Delivered";
 
 const ProtectedRoute = ({ children }) => {
   const { isLoggedIn } = useContext(Storecontext);
@@ -51,7 +53,9 @@ const router = createBrowserRouter(
       >
         <Route path="Add_item" element=<AddItem /> />
         <Route path="Your_Menu" element=<MenuList /> />
-        <Route path="Check-Order" element=<OrderList /> />
+        <Route path="new_order" element=<OrderList /> />
+        <Route path="order-out-for-delivery" element=<OutForDelivery /> />
+        <Route path="order-Delivered-list" element=<Delivered /> />
       </Route>
       <Route path="menu" element={<MenuPage />}>
         <Route path="/menu/:id" element={<MenuPage />} />
