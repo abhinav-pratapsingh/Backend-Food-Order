@@ -5,8 +5,7 @@
 .restaurent-header h1{
     color: black;
     padding: 10px;
-    margin: 0px 10px;
-    font-size: 22px;
+    font-size: 32px;
 }
 
 .restaurentCard-container{
@@ -179,10 +178,10 @@
         font-size: 24px;
     }
 
-    .restaurent-header h1{
+.restaurent-header h1{
     color: black;
     padding: 10px;
     margin: 0px 10px;
     font-size: 22px;
-}
+    }
 }
