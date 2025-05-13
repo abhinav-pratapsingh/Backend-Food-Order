@@ -7,6 +7,8 @@ const RestaurantCard = () => {
   const { restroRes } = useContext(Storecontext);
   const navigate = useNavigate();
 
+  console.log(restroRes);
+
   return (
     <>
       <div className="restaurent-header">

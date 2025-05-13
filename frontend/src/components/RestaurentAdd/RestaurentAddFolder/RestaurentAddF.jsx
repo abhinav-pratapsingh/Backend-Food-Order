@@ -87,8 +87,7 @@ const RestaurentAddF = () => {
         longi: "",
       });
       setImage(false);
-      // setToken(res.data.success);
-      localStorage.setItem("token", res.data.token);
+      // setToken(res.data.success)
     } else {
       alert(res.data.message);
     }

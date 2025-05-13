@@ -17,6 +17,7 @@ const OrderList = () => {
     });
 
     setOrder(response.data.data);
+    console.log(response);
   };
 
   const status = async (event, orderId) => {
@@ -82,7 +83,6 @@ const OrderList = () => {
                   >
                     <option value="food processing">Food Processing</option>
                     <option value="out for delivery">Out for delivery</option>
-                    <option value="delivered">Delivered</option>
                   </select>
                 </div>
               </>
