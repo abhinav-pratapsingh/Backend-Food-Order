@@ -1,6 +1,11 @@
 import express from "express";
 import multer from "multer";
-import { addfood, listFood, menu, removeFood } from "../controller/foodController.js";
+import {
+  addfood,
+  listFood,
+  menu,
+  removeFood,
+} from "../controller/foodController.js";
 import { authMiddlewareRestro } from "../middleware/auth.js";
 import trimValues from "../middleware/trimValues.js";
 import upload_middleware from "../config/multer.js";
@@ -14,7 +19,7 @@ foodRouter.post(
   upload_middleware,
   addfood
 );
-foodRouter.post("/menu",menu);
+foodRouter.post("/menu", menu);
 foodRouter.post("/list", authMiddlewareRestro, listFood);
 foodRouter.post("/remove", trimValues, authMiddlewareRestro, removeFood);
 

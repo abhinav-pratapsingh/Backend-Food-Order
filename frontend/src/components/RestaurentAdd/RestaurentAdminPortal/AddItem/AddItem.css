@@ -31,4 +31,5 @@
     border: 1px solid rgba(255, 99, 71, 0.746);
     margin-bottom: 30px;
     margin-top: 20px;
+    cursor: pointer;
 }

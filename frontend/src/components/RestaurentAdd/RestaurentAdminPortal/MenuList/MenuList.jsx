@@ -15,29 +15,40 @@ const MenuList = () => {
     setRestroId(id);
   });
 
-  useEffect(() => {
-    const fetchData = async () => {
-      let newUrl = url;
-      newUrl += "/api/food/list";
+  const fetchData = async () => {
+    let newUrl = url;
+    newUrl += "/api/food/list";
 
-      const login_response = {
-        headers: {
-          token: restroId,
-        },
-      };
-
-      try {
-        const res = await axios.post(newUrl, null, login_response);
-        setData(res.data.data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
+    const login_response = {
+      headers: {
+        token: restroId,
+      },
     };
 
+    try {
+      const res = await axios.post(newUrl, null, login_response);
+      setData(res.data.data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  useEffect(() => {
     fetchData();
-  }, [restroId, url]);
+  });
 
-  // console.log(data);
+  const remove = async (id) => {
+    try {
+      await axios.post(
+        url + "/api/food/remove",
+        { id: id },
+        { headers: { token: restroId } }
+      );
+      console.log(id);
+    } catch {
+      alert("Does not");
+    }
+  };
+
   return (
     <>
       <div className="menu-list-container">
@@ -56,6 +67,16 @@ const MenuList = () => {
               <div className="food-category">
                 <span>Category:</span>
                 <p>{item.category}</p>
+              </div>
+              <div>
+                <p
+                  className="remove-button"
+                  onClick={() => {
+                    remove(item._id);
+                  }}
+                >
+                  Remove Food
+                </p>
               </div>
             </div>
           ))

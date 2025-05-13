@@ -33,3 +33,11 @@
     height: 15px;
     text-align: center;
 }
+
+.remove-button{
+    background-color: #ffe8e4;
+    border: 1px solid tomato;
+    padding: 10px 30px;
+    color: black;
+    cursor: pointer;
+}

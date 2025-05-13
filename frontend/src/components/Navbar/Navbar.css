@@ -57,6 +57,18 @@
     transition: .5s;
 }
 
+.pannel-logout-button p{
+    margin: 0px 20px;
+     background-color: transparent;
+    font-size: 16px;
+    color: #49557e;
+    border: 1px solid tomato;
+    padding: 10px 30px;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: .5s;
+}
+
 .navbar .navbar-right botton:hover{
     background-color: #fff4f2;
 }

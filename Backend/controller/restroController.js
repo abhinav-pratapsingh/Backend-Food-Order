@@ -1,4 +1,4 @@
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import restroModel from "../models/restroModel.js";
 import jwt from "jsonwebtoken";
 import otpModel from "../models/otpModel.js";

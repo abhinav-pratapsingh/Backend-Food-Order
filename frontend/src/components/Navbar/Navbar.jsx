@@ -134,7 +134,9 @@ const Navbar = ({ setShowLogin, setRestLogin }) => {
                 </button>
               )
             ) : (
-              <></>
+              <Link to="Layout1">
+                <button>Restaurant Pannel</button>
+              </Link>
             )}
           </div>
         </ul>
