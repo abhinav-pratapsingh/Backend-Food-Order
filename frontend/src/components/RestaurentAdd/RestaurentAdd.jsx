@@ -1,5 +1,4 @@
 import React, { useState, useContext } from "react";
-import "../loginPopUp/LoginPopUp.css";
 import { assets } from "../../assets/assets";
 import { Storecontext } from "../../context/Storecontext";
 import axios from "axios";
