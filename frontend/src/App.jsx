@@ -51,11 +51,11 @@ const router = createBrowserRouter(
           </ProtectedRoute>
         }
       >
-        <Route path="/Add_item" element=<AddItem /> />
-        <Route path="/Your_Menu" element=<MenuList /> />
-        <Route path="/new_order" element=<OrderList /> />
-        <Route path="/order-out-for-delivery" element=<OutForDelivery /> />
-        <Route path="/order-Delivered-list" element=<Delivered /> />
+        <Route path="Add_item" element=<AddItem /> />
+        <Route path="Your_Menu" element=<MenuList /> />
+        <Route path="new_order" element=<OrderList /> />
+        <Route path="order-out-for-delivery" element=<OutForDelivery /> />
+        <Route path="order-Delivered-list" element=<Delivered /> />
       </Route>
       <Route path="/menu" element={<MenuPage />}>
         <Route path="/menu/:id" element={<MenuPage />} />
