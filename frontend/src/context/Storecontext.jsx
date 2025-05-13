@@ -147,25 +147,28 @@ const StoreContextProvider = (props) => {
 
   const userLocation = async (e = null) => {
     if (e) e.preventDefault();
+    try {
+      let newUrl = url;
+      newUrl += "/api/restro/near";
 
-    let newUrl = url;
-    newUrl += "/api/restro/near";
+      const dataToSend = {
+        district: district,
+        lati: lati,
+        longi: longi,
+      };
 
-    const dataToSend = {
-      district: district,
-      lati: lati,
-      longi: longi,
-    };
-
-    const res = await axios.post(newUrl, dataToSend);
-    if (res.data.success) {
-      setDistrict("");
-      setLatitude("");
-      setLongitude("");
-    } else {
-      // alert(res.data.message);
+      const res = await axios.post(newUrl, dataToSend);
+      if (res.data.success) {
+        setDistrict("");
+        setLatitude("");
+        setLongitude("");
+      } else {
+        // alert(res.data.message);
+      }
+      setRestroRes(res.data.data);
+    } catch {
+      setRestroRes([]);
     }
-    setRestroRes(res.data.data);
   };
   useEffect(() => {
     location();
