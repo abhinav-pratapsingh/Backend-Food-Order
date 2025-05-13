@@ -5,7 +5,7 @@
 
 .cart-items-title{
     display: grid;
-    grid-template-columns: 1fr 1.5fr 1fr 1fr .5fr .5fr;
+    grid-template-columns: .5fr 1fr 1fr 1fr .5fr .5fr .5fr;
     align-items: center;
     color: gray;
     font-size: max(1vw,12px);
@@ -108,4 +108,25 @@
     .cart-promocode{
         justify-content: start;
     }
+}
+
+@media (max-width:450px){
+    .cart{
+    margin-top: 10px;
+    padding: 10px;
+}
+   .cart-items-title{
+    display: grid;
+    grid-template-columns: .5fr .4fr .5fr .5fr .4fr .3fr;
+    align-items: center;
+    color: gray;
+    font-size: max(1vw,12px);
+}
+.cross{
+    border: 1px solid tomato;
+    text-align: center;
+    padding: 7px;
+    background-color: tomato;
+    color: black;
+}
 }

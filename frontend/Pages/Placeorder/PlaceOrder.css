@@ -41,3 +41,18 @@
 .place-order-right .cart-total button{
     margin-top: 40px;
 }
+
+@media (max-width:700px) {
+    .place-oder{
+    display: flex;
+    flex-direction: column;
+}
+.place-order-left input{
+    margin-top: 15px;
+    width: 91%;
+    padding: 10px;
+    border: 1px solid #c5c5c5;
+    border-radius: 4px;
+    outline-color: tomato;
+}
+}

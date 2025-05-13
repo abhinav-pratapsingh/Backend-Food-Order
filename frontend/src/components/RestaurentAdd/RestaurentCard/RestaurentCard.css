@@ -4,6 +4,9 @@
 
 .restaurent-header h1{
     color: black;
+    padding: 10px;
+    margin: 0px 10px;
+    font-size: 22px;
 }
 
 .restaurentCard-container{
@@ -15,7 +18,7 @@
 }
 
 .card-details{
-   border-radius: 25px;
+    border-radius: 25px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -175,4 +178,11 @@
     .restaurentCard-container .card-details .rest-text .location-menu_button .location{
         font-size: 24px;
     }
+
+    .restaurent-header h1{
+    color: black;
+    padding: 10px;
+    margin: 0px 10px;
+    font-size: 22px;
+}
 }

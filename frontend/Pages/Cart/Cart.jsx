@@ -8,6 +8,8 @@ const Cart = () => {
   const { removeFromCart, url, cartItem, fetchCart, amount } =
     useContext(Storecontext);
 
+  console.log(cartItem);
+
   useEffect(() => {
     fetchCart();
   }, []);
@@ -19,14 +21,13 @@ const Cart = () => {
     <>
       <div className="cart">
         <div className="cart-items">
-          <div className="cart-items-title">
-            <p>Items</p>
+          {/* <div className="cart-items-title">
             <p>Title</p>
             <p>Price</p>
             <p>Quantity</p>
             <p>Total</p>
             <p>Remove</p>
-          </div>
+          </div> */}
           <br />
           <hr />
           {cartItem.map((item, index) => {
@@ -39,10 +40,10 @@ const Cart = () => {
                       className="cart-items-title cart-items-item"
                     >
                       <img src={item.image} />
-                      <p>{item.name}</p>
-                      <p>&#x20B9; {item.price}</p>
-                      <p>{item.quantity}</p>
-                      <p>&#x20B9; {item.price * item.quantity}</p>
+                      <p>Title: {item.name}</p>
+                      <p>Price: &#x20B9; {item.price}</p>
+                      <p>Quantity: {item.quantity}</p>
+                      <p>Total: &#x20B9; {item.price * item.quantity}</p>
                       <p
                         className="cross"
                         onClick={() => {
