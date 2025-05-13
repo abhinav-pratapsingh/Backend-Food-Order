@@ -14,7 +14,8 @@ const StoreContextProvider = (props) => {
   const [cartItems, setCartItems] = useState({});
   const [restroRes, setRestroRes] = useState([]);
   const [cartItem, setCartItem] = useState([]);
-  const url = "http://localhost:3000";
+  // const url = "http://localhost:3000";
+  const url = "https://foodoreder-2.onrender.com";
   const [forLoginToken, setForLoginToken] = useState(" ");
   const [token, setToken] = useState(localStorage.getItem("token") || "");
   const [menu, setMenu] = useState([]);
