@@ -34,7 +34,9 @@ const { v2: cloudinary } = pkg;
 import { CloudinaryStorage } from "multer-storage-cloudinary";
 import dotenv from "dotenv";
 
-dotenv.config();
+if (process.env.NODE_ENV !== 'production') {
+  dotenv.config();
+}
 
 // 🔹 Configure Cloudinary
 cloudinary.config({
