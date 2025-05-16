@@ -78,6 +78,7 @@ const upload = multer({
 
 // 🔹 Middleware Function
 const uploadMiddleware = (req, res, next) => {
+  console.log("All env vars:", process.env);
   console.log(process.env.c_api_key);
   upload.single("image")(req, res, (err) => {
     if (err instanceof multer.MulterError) {
