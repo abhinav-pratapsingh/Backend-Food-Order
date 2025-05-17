@@ -222,4 +222,21 @@ const nearRestro = async (req, res) => {
   }
 };
 
-export { nearRestro };
+const allRestrosForTest = async(req,res)=>{
+  try {
+    const restros = await restroModel.find();
+    const data = restros.map((restro)=>({
+      name: restro.name,
+      _id: restro._id,
+      address: restro.address,
+      image: restro.image,
+      distance:"5"
+    }))
+    console.log(data);
+    res.json({success:true,message:"sample restros",data});
+  } catch (error) {
+    res.json({success:false,message:"error in finding restaurents"});
+  }
+}
+
+export { nearRestro,allRestrosForTest };
