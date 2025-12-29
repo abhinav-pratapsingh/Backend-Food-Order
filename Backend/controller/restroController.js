@@ -22,20 +22,21 @@ const restroRegister = async (req, res) => {
       pin_code,
       lati,
       longi,
-      otp,
+    //otp,
     } = req.body;
 
-    const v_otp = await otpModel.find({ email }).sort({ Date: -1 });
+    //const v_otp = await otpModel.find({ email }).sort({ Date: -1 });
 
-    const isVaild = (v_otp) => {
-      const current = Date.now();
-      const tenmin = 10 * 60 * 1000;
-      const otpDate = v_otp[0].Date;
-      return tenmin >= current - otpDate;
-    };
+    //const isVaild = (v_otp) => {
+      //const current = Date.now();
+      //const tenmin = 10 * 60 * 1000;
+      //const otpDate = v_otp[0].Date;
+      //return tenmin >= current - otpDate;
+    //};
 
-    if (otp == v_otp[0].otp && isVaild(v_otp)) {
-      await otpModel.deleteMany({ email });
+    //if (otp == v_otp[0].otp && isVaild(v_otp)) {
+    if (email) {
+      //await otpModel.deleteMany({ email });
       const exists = await restroModel.findOne({ email: email });
       if (exists) {
         return res.json({
