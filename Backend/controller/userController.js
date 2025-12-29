@@ -27,19 +27,19 @@ const sendMailVerification = async (to, sub, code) => {
 };
 
 const userRegister = async (req, res) => {
-  const { name, email, password, otp } = req.body;
-  console.log(name, email, password, otp);
+  //const { name, email, password, otp } = req.body;
+  const { name, email, password} = req.body;
   try {
-    const D_otp = await otpModel.find({ email }).sort({ Date: -1 });
-    console.log(D_otp[0].otp);
-    const isVaild = (D_otp) => {
-      const current = Date.now();
-      const tenmin = 10 * 60 * 1000;
-      const otpDate = D_otp[0].Date;
-      return tenmin >= current - otpDate;
-    };
-    if (otp == D_otp[0].otp && isVaild(D_otp)) {
-      await otpModel.deleteMany({ email });
+    //const D_otp = await otpModel.find({ email }).sort({ Date: -1 });
+    //console.log(D_otp[0].otp);
+    //const isVaild = (D_otp) => {
+      //const current = Date.now();
+      //const tenmin = 10 * 60 * 1000;
+      //const otpDate = D_otp[0].Date;
+      //return tenmin >= current - otpDate;
+    //};
+    if (email){                 //otp == D_otp[0].otp && isVaild(D_otp)) {
+      //await otpModel.deleteMany({ email });
       //checking user already exists
       const exists = await userModel.findOne({ email });
       if (exists) {
@@ -70,7 +70,8 @@ const userRegister = async (req, res) => {
         token,
       });
     } else {
-      res.json({ success: false, message: "otp is incorrect or expired" });
+      //res.json({ success: false, message: "otp is incorrect or expired" });
+      res.json({ success: false, message: "please enter email" });
     }
   } catch (e) {
     res.json({ success: false, message: `error ${e}` });
